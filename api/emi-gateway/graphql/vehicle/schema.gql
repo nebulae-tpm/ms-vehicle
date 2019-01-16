@@ -1,0 +1,95 @@
+type CommandResponse {
+  "Response code"
+  code: Int
+  "Response message"
+  message: String
+}
+
+type VehicleVehicle {
+  "Vehicle ID"
+  _id: ID!
+  "User general info"
+  generalInfo: VehicleGeneralInfo
+  "Vehicle state"
+  state: Boolean!
+  "Creation timestamp"
+  creationTimestamp: BigInt!
+  "Creator user"
+  creatorUser: String!
+  "Modification timestamp"
+  modificationTimestamp: BigInt!
+  "Modifier user"
+  modifierUser: String!
+  "Business ID"
+  businessId: String!
+}
+
+type VehicleGeneralInfo {
+  "Vehicle name"
+  name: String!,
+  "Vehicle description"
+  description: String!
+}
+
+input FilterInput {
+  "ID of the business"
+  businessId: String
+  "Name"
+  name: String
+  "State"
+  state: Boolean
+  "Creator user"
+  creatorUser: String
+  "modifier user"
+  modifierUser: String
+  "get data created after indicated timestamp"
+  creationTimestamp: BigInt
+}
+
+input PaginationInput {
+  "Page"
+  page: Int!
+  "Count"
+  count: Int!
+  "Sort, default: ASC"
+  sort: Int
+}
+
+input VehicleVehicleInput {
+  "Vehicle general info"
+  generalInfo: VehicleVehicleGeneralInfoInput!
+  "Vehicle status"
+  state: Boolean!
+  "Business ID"
+  businessId: String!
+}
+
+input VehicleVehicleGeneralInfoInput {
+  "Vehicle name"
+  name: String!,
+  "Vehicle description"
+  description: String!
+}
+
+type Query {
+  "Get Vehicles filtered "
+  VehicleVehicles(filterInput: FilterInput!, paginationInput: PaginationInput!): [VehicleVehicle]
+  "Get the amount of Vehicles filtered "
+  VehicleVehiclesSize(filterInput: FilterInput!): Int!
+  "Get Vehicle by its id"
+  VehicleVehicle(id: String!): VehicleVehicle
+}
+
+type Mutation {
+  "Create a new Vehicle"
+  VehicleCreateVehicle(input: VehicleVehicleInput!): CommandResponse
+  "Update the Vehicle generalInfo"
+  VehicleUpdateVehicleGeneralInfo(id:ID!, input: VehicleVehicleGeneralInfoInput!): CommandResponse
+  "Update the Vehicle state"
+  VehicleUpdateVehicleState(id: ID!, newState: Boolean!): CommandResponse
+}
+
+type Subscription {
+  "This events is triggered when a Vehicle is created or updated"
+  VehicleVehicleUpdatedSubscription: VehicleVehicle  
+}
