@@ -2,8 +2,8 @@ export const locale = {
   lang: 'en',
   data: {
     VEHICLE: {
-      DETAIL_HEADER_NAME: 'ENTYTY',
-      DETAIL_HEADER_NEW: 'New entity',
+      DETAIL_HEADER_NAME: 'Vehicle',
+      DETAIL_HEADER_NEW: 'New Vehicle',
       TITLE: 'Entity name',
       FILTER: 'Filter',
       NAME: 'Name',
@@ -26,9 +26,11 @@ export const locale = {
         DISABLED: 'Disabled',
         NAME: 'Name',
         DESCRIPTION: 'Description'
-
       },
       ACTIVE: 'Active',
+      LICENSE_PLATE: 'Plate',
+      BLOCKINGS: 'Blockings',
+      MODEL: 'Model',
       CREATE: 'Create',
       UPDATE: 'Save',
       UPDATE_TITLE: 'Update',

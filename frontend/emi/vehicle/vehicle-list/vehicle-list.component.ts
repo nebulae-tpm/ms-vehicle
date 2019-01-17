@@ -105,12 +105,13 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
   // Columns to show in the table
   displayedColumns = [
-    'name',
+    'licensePlate',
+    'model',
     'state',
-    'creationTimestamp',
-    'creatorUser',
+    'blockings',
     'modificationTimestamp',
-    'modifierUser'
+    'modifierUser',
+    'creatorUser'
   ];
 
   /////// OTHERS ///////
@@ -229,12 +230,12 @@ export class VehicleListComponent implements OnInit, OnDestroy {
       this.VehicleListservice.paginator$
     ).pipe(
       take(1)
-    ).subscribe(([filter, paginator]) => {
+    ).subscribe(([filterValue, paginator]) => {
           if (filter) {
             this.filterForm.patchValue({
               name: filter.name,
-              creationTimestamp: filter.creationTimestamp,
-              creatorUser: filter.creatorUser
+              creationTimestamp: filterValue.creationTimestamp,
+              creatorUser: filterValue.creatorUser
             });
           }
 
@@ -252,40 +253,35 @@ export class VehicleListComponent implements OnInit, OnDestroy {
    * If a change is detect in the filter or the paginator then the table will be refreshed according to the values emmited
    */
   refreshTableSubscription() {
-    combineLatest(
-      this.VehicleListservice.filter$,
-      this.VehicleListservice.paginator$,
-      this.toolbarService.onSelectedBusiness$
-    ).pipe(
-      debounceTime(500),
-      filter(([filter, paginator, selectedBusiness]) => (filter != null && paginator != null)),
-      map(([filter, paginator, selectedBusiness]) => {
-        const filterInput = {
-          businessId: selectedBusiness ? selectedBusiness.id : null,
-          name: filter.name,
-          creatorUser: filter.creatorUser,
-          creationTimestamp: filter.creationTimestamp ? filter.creationTimestamp.valueOf() : null
-        };
-        const paginationInput = {
-          page: paginator.pagination.page,
-          count: paginator.pagination.count,
-          sort: paginator.pagination.sort,
-        };
+    combineLatest(this.VehicleListservice.filter$, this.VehicleListservice.paginator$, this.toolbarService.onSelectedBusiness$)
+      .pipe( debounceTime(500), filter(([filterValue, paginator, selectedBusiness]) => filterValue != null && paginator != null), map(
+          ([filterValue, paginator, selectedBusiness]) => {
+            const filterInput = {
+              businessId: selectedBusiness ? selectedBusiness.id : null,
+              name: filterValue.name,
+              creatorUser: filterValue.creatorUser,
+              creationTimestamp: filterValue.creationTimestamp
+                ? filterValue.creationTimestamp.valueOf()
+                : null
+            };
+            const paginationInput = {
+              page: paginator.pagination.page,
+              count: paginator.pagination.count,
+              sort: paginator.pagination.sort
+            };
 
-        return [filterInput, paginationInput];
-      }),
-      mergeMap(([filterInput, paginationInput]) => {
-        return forkJoin(
-          this.getvehicleList$(filterInput, paginationInput),
-          this.getvehicleSize$(filterInput),
-        );
-      }),
-      takeUntil(this.ngUnsubscribe)
-    )
-    .subscribe(([list, size]) => {
-      this.dataSource.data = list;
-      this.tableSize = size;
-    });
+            return [filterInput, paginationInput];
+          }
+        ), mergeMap(([filterInput, paginationInput]) =>
+          forkJoin(
+            this.getvehicleList$(filterInput, paginationInput),
+            this.getvehicleSize$(filterInput)
+          )
+        ), takeUntil(this.ngUnsubscribe) )
+      .subscribe(([list, size]) => {
+        this.dataSource.data = list;
+        this.tableSize = size;
+      });
   }
 
   /**

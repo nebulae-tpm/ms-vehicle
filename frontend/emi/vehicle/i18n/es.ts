@@ -2,8 +2,8 @@ export const locale = {
   lang: 'es',
   data: {
     VEHICLE: {
-      DETAIL_HEADER_NAME: 'ENTIDAD',
-      DETAIL_HEADER_NEW: 'Nueva entidad',
+      DETAIL_HEADER_NAME: 'Vehiclo',
+      DETAIL_HEADER_NEW: 'Nuevo Vehículo',
       TITLE: 'Nombre entidad',
       FILTER: 'Filtros',
       NAME: 'Nombre',
@@ -28,6 +28,9 @@ export const locale = {
         DESCRIPTION: 'Descripción'
       },
       ACTIVE: 'Activo',
+      LICENSE_PLATE: 'Placa',
+      BLOCKINGS: 'Bloqueos',
+      MODEL: 'Modelo',
       CREATE: 'Crear',
       UPDATE: 'Guardar',
       UPDATE_TITLE: 'Actualizar',
