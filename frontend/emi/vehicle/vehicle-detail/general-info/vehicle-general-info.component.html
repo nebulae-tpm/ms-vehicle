@@ -1,11 +1,12 @@
 <div class="tab-content p-24" fxLayout="column" fusePerfectScrollbar>
 
-    <form name="vehicleGeneralInfoForm" [formGroup]="vehicleGeneralInfoForm" class="w-100-p"
-      fxLayout="column" class="mat-white-bg p-24 mr-24 mb-24">
+    <form name="vehicleGeneralInfoForm" [formGroup]="vehicleGeneralInfoForm"
+      fxLayout="row wrap" class="mat-white-bg p-24 mr-24 mb-24">
 
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between  start">
-        <div class="h2">{{'VEHICLE.DETAILS.GENERAL_INFO' | translate}}</div>
-        <form *ngIf="vehicleStateForm" name="vehicleStateForm" [formGroup]="vehicleStateForm" fxLayout="column">
+      <div fxFlex="100" fxLayout.gt-xs="row" fxLayout="column" fxLayoutAlign.gt-xs="space-around start" fxLayoutAlign="center start" >
+        <div fxFlex.gt-xs="100" fxFlex="100" class="h2">{{'VEHICLE.DETAILS.GENERAL_INFO' | translate}}</div>
+        <form *ngIf="vehicleStateForm" fxFlex="50" fxFlex.gt-xs="50" name="vehicleStateForm"
+          [formGroup]="vehicleStateForm" fxLayoutAlign="end center" >
           <mat-slide-toggle formControlName="state" color="accent" (change)="onVehicleStateChange($event)">
             <label *ngIf="vehicleStateForm.controls['state'].value">{{'VEHICLE.DETAILS.ENABLED' | translate}}</label>
             <label *ngIf="!vehicleStateForm.controls['state'].value">{{'VEHICLE.DETAILS.DISABLED' | translate}}</label>
@@ -13,22 +14,42 @@
         </form>
       </div>
 
-      <mat-form-field class="w-100-p">
-        <input matInput name="name" formControlName="name" maxlength="15" placeholder="{{'VEHICLE.DETAILS.NAME' | translate}}">
-        <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['name'])">
+      <mat-form-field fxFlex.gt-xs="50" fxFlex="100" fxLayout="column" class="pr-8 pl-8" >
+        <input matInput name="licensePlate" formControlName="licensePlate" maxlength="15" placeholder="{{'VEHICLE.DETAILS.LICENSE_PLATE' | translate}}">
+        <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['licensePlate'])">
           {{'VEHICLE.NAME_REQUIRED' | translate}}
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="w-100-p" fxLAyout="column">
-        <textarea matInput matTextareaAutosize name="description" formControlName="description"
-          maxlength="350" placeholder="{{'VEHICLE.DETAILS.DESCRIPTION' | translate}}"
+      <mat-form-field fxFlex.gt-xs="50" fxFlex="100" fxLayout="column" class="pr-8 pl-8">
+        <textarea matInput matTextareaAutosize name="model" formControlName="model"
+          maxlength="350" placeholder="{{'VEHICLE.DETAILS.MODEL_YEAR' | translate}}"
           matAutosizeMinRows="1" matAutosizeMaxRows="5" >
         </textarea>
-        <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['description'])">
-          {{'VEHICLE.DESCRIPTION_REQUIRED' | translate}}
+        <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['model'])">
+          {{'VEHICLE.MODEL_YEAR_REQUIRED' | translate}}
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field fxFlex.gt-xs="50" fxFlex="100" fxLayout="column" class="pr-8 pl-8">
+        <textarea matInput matTextareaAutosize name="brand" formControlName="brand"
+          maxlength="350" placeholder="{{'VEHICLE.DETAILS.BRAND' | translate}}"
+          matAutosizeMinRows="1" matAutosizeMaxRows="5" >
+        </textarea>
+        <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['brand'])">
+          {{'VEHICLE.BRAND_REQUIRED' | translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-xs="50" fxFlex="100" fxLayout="column" class="pr-8 pl-8">
+          <textarea matInput matTextareaAutosize name="line" formControlName="line"
+            maxlength="350" placeholder="{{'VEHICLE.DETAILS.LINE' | translate}}"
+            matAutosizeMinRows="1" matAutosizeMaxRows="5" >
+          </textarea>
+          <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['line'])">
+            {{'VEHICLE.LINE_REQUIRED' | translate}}
+          </mat-error>
+        </mat-form-field>
 
 
       <div class="mt-16">

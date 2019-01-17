@@ -149,6 +149,70 @@ module.exports = {
                 mergeMap(response => getResponseFromBackEnd$(response))
             ).toPromise();
         },
+        VehicleAddBlocking(root, args, context) {
+            return RoleValidator.checkPermissions$(
+              context.authToken.realm_access.roles,
+              "Vehicle",
+              "VehicleAddBlocking",
+              PERMISSION_DENIED_ERROR_CODE,
+              "Permission denied",
+              ["PLATFORM-ADMIN"]
+            ).pipe(
+                mergeMap(() =>
+                  context.broker.forwardAndGetReply$(
+                    "Vehicle",
+                    "emi-gateway.graphql.mutation.VehicleAddBlocking",
+                    { root, args, jwt: context.encodedToken },
+                    2000
+                  )
+                ),
+                catchError(err => handleError$(err, "addBlocking")),
+                mergeMap(response => getResponseFromBackEnd$(response))
+            ).toPromise();
+        },
+        VehicleRemoveBlocking(root, args, context) {
+            return RoleValidator.checkPermissions$(
+              context.authToken.realm_access.roles,
+              "Vehicle",
+              "VehicleRemoveBlocking",
+              PERMISSION_DENIED_ERROR_CODE,
+              "Permission denied",
+              ["PLATFORM-ADMIN"]
+            ).pipe(
+                mergeMap(() =>
+                  context.broker.forwardAndGetReply$(
+                    "Vehicle",
+                    "emi-gateway.graphql.mutation.VehicleRemoveBlocking",
+                    { root, args, jwt: context.encodedToken },
+                    2000
+                  )
+                ),
+                catchError(err => handleError$(err, "removeBlocking")),
+                mergeMap(response => getResponseFromBackEnd$(response))
+            ).toPromise();
+        },
+        VehicleUpdateFeatures(root, args, context) {
+            return RoleValidator.checkPermissions$(
+              context.authToken.realm_access.roles,
+              "Vehicle",
+              "VehicleUpdateFeatures",
+              PERMISSION_DENIED_ERROR_CODE,
+              "Permission denied",
+              ["PLATFORM-ADMIN"]
+            ).pipe(
+                mergeMap(() =>
+                  context.broker.forwardAndGetReply$(
+                    "Vehicle",
+                    "emi-gateway.graphql.mutation.VehicleUpdateFeatures",
+                    { root, args, jwt: context.encodedToken },
+                    2000
+                  )
+                ),
+                catchError(err => handleError$(err, "updateFeatures")),
+                mergeMap(response => getResponseFromBackEnd$(response))
+            ).toPromise();
+        },
+
     },
 
     //// SUBSCRIPTIONS ///////
@@ -162,7 +226,17 @@ module.exports = {
                     return true;
                 }
             )
-        }
+        },
+        VehicleLocationUpdatedSubscription: {
+            subscribe: withFilter(
+                (payload, variables, context, info) => {
+                    return pubsub.asyncIterator("VehicleVehicleUpdatedSubscription");
+                },
+                (payload, variables, context, info) => {
+                    return true;
+                }
+            )
+        },
 
     }
 };
@@ -175,9 +249,13 @@ const eventDescriptors = [
     {
         backendEventName: 'VehicleVehicleUpdatedSubscription',
         gqlSubscriptionName: 'VehicleVehicleUpdatedSubscription',
-        dataExtractor: (evt) => evt.data,// OPTIONAL, only use if needed
+        dataExtractor: (evt) => evt.data, // OPTIONAL, only use if needed
         onError: (error, descriptor) => console.log(`Error processing ${descriptor.backendEventName}`),// OPTIONAL, only use if needed
         onEvent: (evt, descriptor) => console.log(`Event of type  ${descriptor.backendEventName} arraived`),// OPTIONAL, only use if needed
+    },
+    {
+        backendEventName: 'VehicleLocationUpdated',
+        gqlSubscriptionName: 'VehicleLocationUpdatedSubscription'
     },
 ];
 

@@ -86,13 +86,25 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
     private toolbarService: ToolbarService
   ) {
       this.translationLoader.loadTranslations(english, spanish);
+
   }
 
 
   ngOnInit() {
+    this.vehicle = {
+      generalInfo: {
+        licensePlate: 'TKM909',
+        model: 2018,
+        brand: 'KIA',
+        line: 'sport'
+      }
+    };
+    console.log('VEHICULO QUE ENTRA ==> ', this.vehicle);
     this.vehicleGeneralInfoForm = new FormGroup({
-      name: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).name : ''),
-      description: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).description : '')
+      licensePlate: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).licensePlate : ''),
+      model: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).model : ''),
+      brand: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).brand : ''),
+      line: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).line : '')
     });
 
     this.vehicleStateForm = new FormGroup({
@@ -140,8 +152,8 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
       .pipe(
         mergeMap(ok => {
           const generalInfoinput = {
-            name: this.vehicleGeneralInfoForm.getRawValue().name,
-            description: this.vehicleGeneralInfoForm.getRawValue().description
+            licensePlate: this.vehicleGeneralInfoForm.getRawValue().licensePlate,
+            model: this.vehicleGeneralInfoForm.getRawValue().model
           };
           return this.VehicleDetailservice.updateVehicleVehicleGeneralInfo$(this.vehicle._id, generalInfoinput);
         }),
@@ -163,9 +175,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
   onVehicleStateChange() {
     this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
       .pipe(
-        mergeMap(ok => {
-          return this.VehicleDetailservice.updateVehicleVehicleState$(this.vehicle._id, this.vehicleStateForm.getRawValue().state);
-        }),
+        mergeMap(ok => this.VehicleDetailservice.updateVehicleVehicleState$(this.vehicle._id, this.vehicleStateForm.getRawValue().state)),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
         filter((resp: any) => !resp.errors || resp.errors.length === 0),
         takeUntil(this.ngUnsubscribe)
@@ -179,14 +189,12 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
   }
 
   showConfirmationDialog$(dialogMessage, dialogTitle) {
-    return this.dialog
-      // Opens confirm dialog
-      .open(DialogComponent, {
-        data: {
-          dialogMessage,
-          dialogTitle
-        }
-      })
+    return this.dialog.open(DialogComponent, {
+      data: {
+        dialogMessage,
+        dialogTitle
+      }
+    })
       .afterClosed()
       .pipe(
         filter(okButton => okButton),

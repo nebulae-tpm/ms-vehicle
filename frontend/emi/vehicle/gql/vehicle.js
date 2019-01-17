@@ -25,9 +25,12 @@ export const VehicleVehicle = gql`
     VehicleVehicleEntity(id: $id) {
       _id
       generalInfo {
-        name
-        description
+        licensePlate
+        model
+        brand
+        line
       }
+      blockings
       state
       creationTimestamp
       creatorUser
@@ -42,8 +45,10 @@ export const VehicleVehicles = gql`
     VehicleVehicles(filterInput: $filterInput, paginationInput: $paginationInput) {
       _id
       generalInfo {
-        name
-        description
+        licensePlate
+        model
+        brand
+        line
       }
       state
       creationTimestamp
@@ -93,8 +98,10 @@ export const VehicleVehicleUpdatedSubscription = gql`
     VehicleVehicleUpdatedSubscription{
       _id
       generalInfo {
-        name
-        description
+        licensePlate
+        model
+        brand
+        line
       }
       state
       creationTimestamp
