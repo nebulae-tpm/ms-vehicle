@@ -1,7 +1,7 @@
 export const locale = {
   lang: 'en',
   data: {
-    'VEHICLE': {
+    VEHICLE: {
       DETAIL_HEADER_NAME: 'ENTYTY',
       DETAIL_HEADER_NEW: 'New entity',
       TITLE: 'Entity name',
@@ -17,7 +17,9 @@ export const locale = {
       ADD_NEW: 'Add new',
       DETAILS: {
         TABS: {
-          GENERAL_INFO: 'General Info'
+          GENERAL_INFO: 'General Info',
+          FEATURES: 'Features',
+          LOCATION: 'Location'
         },
         GENERAL_INFO: 'General Info',
         ENABLED: 'Enabled',
@@ -40,6 +42,11 @@ export const locale = {
       WAIT_OPERATION: 'Operation in process, in case of not receiving an answer, verify if the changes made were applied successfully.',
       SELECT_BUSINESS: 'You must select a business unit before performing the creation.',
       ERROR_OPERATION: 'Error performing operation'
+    },
+    MARKER: {
+      INFOWINDOW: {
+
+      },
     },
     ERRORS: {
       1: 'Internal server error',

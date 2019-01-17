@@ -86,10 +86,10 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
     )
     .subscribe((vehicle: any) => {
       this.vehicle = vehicle;
-      this.pageType = (vehicle && vehicle._id) ? 'edit' : 'new'
+      this.pageType = (vehicle && vehicle._id) ? 'edit' : 'new';
     }, e => console.log(e));
   }
-  
+
   subscribeVehicleUpdated(){
     this.VehicleDetailservice.subscribeVehicleVehicleUpdatedSubscription$()
     .pipe(
@@ -98,31 +98,31 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
     )
     .subscribe((vehicle: any) => {
       this.checkIfEntityHasBeenUpdated(vehicle);
-    })
+    });
   }
 
   checkIfEntityHasBeenUpdated(newvehicle){
-    if(this.VehicleDetailservice.lastOperation == 'CREATE'){
+    if (this.VehicleDetailservice.lastOperation === 'CREATE'){
 
-      //Fields that will be compared to check if the entity was created
-      if(newvehicle.generalInfo.name == this.VehicleDetailservice.vehicle.generalInfo.name 
-        && newvehicle.generalInfo.description == this.VehicleDetailservice.vehicle.generalInfo.description){
-        //Show message entity created and redirect to the main page
+      // Fields that will be compared to check if the entity was created
+      if (newvehicle.generalInfo.name === this.VehicleDetailservice.vehicle.generalInfo.name
+        && newvehicle.generalInfo.description === this.VehicleDetailservice.vehicle.generalInfo.description){
+        // Show message entity created and redirect to the main page
         this.showSnackBar('VEHICLE.ENTITY_CREATED');
         this.router.navigate(['vehicle/']);
       }
 
-    }else if(this.VehicleDetailservice.lastOperation == 'UPDATE'){
+    }else if (this.VehicleDetailservice.lastOperation === 'UPDATE'){
       // Just comparing the ids is enough to recognise if it is the same entity
-      if(newvehicle._id == this.vehicle._id){
-        //Show message entity updated and redirect to the main page
+      if (newvehicle._id === this.vehicle._id){
+        // Show message entity updated and redirect to the main page
         this.showSnackBar('VEHICLE.ENTITY_UPDATED');
         this.router.navigate(['vehicle/']);
       }
 
     }else{
-      if(this.vehicle != null && newvehicle._id == this.vehicle._id){
-        //Show message indicating that the entity has been updated
+      if (this.vehicle != null && newvehicle._id === this.vehicle._id){
+        // Show message indicating that the entity has been updated
         this.showSnackBar('VEHICLE.ENTITY_UPDATED');
       }
     }
@@ -133,8 +133,8 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
       take(1),
       mergeMap(() => this.VehicleDetailservice.resetOperation$())
     ).subscribe(val => {
-      //console.log('Reset operation');
-    })
+      // console.log('Reset operation');
+    });
   }
 
   showSnackBar(message) {

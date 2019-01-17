@@ -7,7 +7,7 @@ services:
       - "9001:9001"
       - "1883:1883"
     volumes:
-      - broker-mqtt-data-vehicle:/mosquitto/data            
+      - broker-mqtt-TPM-data-vehicle:/mosquitto/data            
   store-mongo-vehicle:
     image: mongo:4
     ports:
@@ -15,7 +15,7 @@ services:
     environment: 
         - storageEngine=wiredTiger
     volumes: 
-      - store-mongo-db-vehicle:/data/db
+      - store-mongo-TPM-db-vehicle:/data/db
   keycloak-mysql-vehicle:
      image: mysql:5.6
      ports:
@@ -26,7 +26,7 @@ services:
          - MYSQL_USER=keycloak
          - MYSQL_PASSWORD=keycloak
      volumes:
-       - keycloak-mysql-data-vehicle:/var/lib/mysql
+       - keycloak-mysql-TPM-data-vehicle:/var/lib/mysql
   keycloak-vehicle:
        image: nebulaetpm/keycloak:latest
        environment:
@@ -44,11 +44,11 @@ services:
          - 8080:8080
          - 9990:9990
        volumes:
-         - keycloak-data-vehicle:/opt/jboss/keycloak/standalone/data      
+         - keycloak-TPM-data-vehicle:/opt/jboss/keycloak/standalone/data      
        depends_on: 
          - keycloak-mysql-vehicle
 volumes: 
-  store-mongo-db-vehicle:
-  broker-mqtt-data-vehicle:
-  keycloak-mysql-data-vehicle:
-  keycloak-data-vehicle:
+  store-mongo-TPM-db-vehicle:
+  broker-mqtt-TPM-data-vehicle:
+  keycloak-mysql-TPM-data-vehicle:
+  keycloak-TPM-data-vehicle:

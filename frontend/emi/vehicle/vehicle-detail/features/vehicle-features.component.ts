@@ -59,19 +59,19 @@ import { ToolbarService } from '../../../../toolbar/toolbar.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'vehicle-general-info',
-  templateUrl: './vehicle-general-info.component.html',
-  styleUrls: ['./vehicle-general-info.component.scss']
+  selector: 'vehicle-features',
+  templateUrl: './vehicle-features.component.html',
+  styleUrls: ['./vehicle-features.component.scss']
 })
 // tslint:disable-next-line:class-name
-export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
+export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   // Subject to unsubscribe
   private ngUnsubscribe = new Subject();
 
   @Input('pageType') pageType: string;
   @Input('vehicle') vehicle: any;
 
-  vehicleGeneralInfoForm: any;
+  vehicleFeaturesForm: any;
   vehicleStateForm: any;
 
   constructor(
@@ -90,9 +90,9 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.vehicleGeneralInfoForm = new FormGroup({
-      name: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).name : ''),
-      description: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).description : '')
+    this.vehicleFeaturesForm = new FormGroup({
+      name: new FormControl(this.vehicle ? (this.vehicle.features || {}).name : ''),
+      description: new FormControl(this.vehicle ? (this.vehicle.features || {}).description : '')
     });
 
     this.vehicleStateForm = new FormGroup({
@@ -114,14 +114,14 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
         .pipe(
           mergeMap(ok => {
             this.vehicle = {
-              generalInfo: this.vehicleGeneralInfoForm.getRawValue(),
+              features: this.vehicleFeaturesForm.getRawValue(),
               state: this.vehicleStateForm.getRawValue().state,
               businessId: selectedBusiness.id
             };
             return this.VehicleDetailservice.createVehicleVehicle$(this.vehicle);
           }),
           mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
-          filter((resp: any) => !resp.errors || resp.errors.length === 0),
+          filter((resp: any) => !resp.errors || resp.errors.length === 0)
         );
       }),
       takeUntil(this.ngUnsubscribe)
@@ -135,15 +135,15 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
     );
   }
 
-  updateVehicleGeneralInfo() {
+  updateVehicleFeatures() {
     this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
       .pipe(
         mergeMap(ok => {
-          const generalInfoinput = {
-            name: this.vehicleGeneralInfoForm.getRawValue().name,
-            description: this.vehicleGeneralInfoForm.getRawValue().description
+          const featuresinput = {
+            name: this.vehicleFeaturesForm.getRawValue().name,
+            description: this.vehicleFeaturesForm.getRawValue().description
           };
-          return this.VehicleDetailservice.updateVehicleVehicleGeneralInfo$(this.vehicle._id, generalInfoinput);
+          return this.VehicleDetailservice.updateVehicleVehicleFeatures$(this.vehicle._id, featuresinput);
         }),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
         filter((resp: any) => !resp.errors || resp.errors.length === 0),

@@ -38,11 +38,20 @@
 
       <!-- CONTENT CARD -->
       <div class="content-card mat-white-bg">
-        <mat-tab-group>
+        <mat-tab-group  >
 
           <mat-tab label="{{'VEHICLE.DETAILS.TABS.GENERAL_INFO' | translate}}">
             <vehicle-general-info [pageType]="pageType" [vehicle]="vehicle" *ngIf="pageType">
             </vehicle-general-info>
+          </mat-tab>
+          <mat-tab label="{{'VEHICLE.DETAILS.TABS.FEATURES' | translate}}">
+              <vehicle-features></vehicle-features>
+          </mat-tab>
+          <mat-tab label="{{'VEHICLE.DETAILS.TABS.LOCATION' | translate}}">
+              <vehicle-location></vehicle-location>
+          </mat-tab>
+          <mat-tab flex layout="column" label="A" style="background:green">
+              <div style="min-height: 100% !important;" flex style="background:blue" layout-fill>A</div>
           </mat-tab>
 
         </mat-tab-group>

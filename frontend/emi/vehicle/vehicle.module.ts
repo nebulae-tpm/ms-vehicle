@@ -12,6 +12,8 @@ import { VehicleDetailComponent } from './vehicle-detail/vehicle-detail.componen
 import { VehicleDetailGeneralInfoComponent } from './vehicle-detail/general-info/vehicle-general-info.component';
 import { ToolbarService } from '../../toolbar/toolbar.service';
 import { DialogComponent } from './dialog/dialog.component';
+import { VehicleDetailFeaturesComponent } from './vehicle-detail/features/vehicle-features.component';
+import { VehicleLocationComponent } from './vehicle-detail/location/vehicle-location.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,10 @@ const routes: Routes = [
   {
     path: ':id',
     component: VehicleDetailComponent,
+  },
+  {
+    path: 'other/map',
+    component: VehicleLocationComponent,
   }
 ];
 
@@ -34,7 +40,9 @@ const routes: Routes = [
     DialogComponent,
     VehicleListComponent,
     VehicleDetailComponent,
-    VehicleDetailGeneralInfoComponent
+    VehicleDetailGeneralInfoComponent,
+    VehicleDetailFeaturesComponent,
+    VehicleLocationComponent
   ],
   entryComponents: [DialogComponent],
   providers: [ VehicleService, VehicleListService, VehicleDetailService, DatePipe]

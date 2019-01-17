@@ -8,7 +8,7 @@ import {
   VehicleUpdateVehicleState,
   VehicleVehicle,
   VehicleVehicleUpdatedSubscription
-} from '../gql/Vehicle.js';
+} from '../gql/vehicle.js';
 
 @Injectable()
 export class VehicleDetailService {
@@ -70,7 +70,7 @@ export class VehicleDetailService {
           errorPolicy: 'all'
         });
       })
-    )
+    );
   }
 
   updateVehicleVehicleGeneralInfo$(id: String, vehicleGeneralInfo: any) {
@@ -87,7 +87,24 @@ export class VehicleDetailService {
           errorPolicy: 'all'
         });
       })
-    )
+    );
+  }
+
+  updateVehicleVehicleFeatures$(id: String, vehicleFeatures: any){
+    return this.updateOperation$(vehicleFeatures)
+    .pipe(
+      mergeMap(() => {
+        return this.gateway.apollo
+        .mutate<any>({
+          mutation: VehicleUpdateVehicleGeneralInfo,
+          variables: {
+            id: id,
+            input: vehicleFeatures
+          },
+          errorPolicy: 'all'
+        });
+      })
+    );
   }
 
   updateVehicleVehicleState$(id: String, newState: boolean) {
@@ -108,8 +125,8 @@ export class VehicleDetailService {
       variables: {
         id: entityId
       },
-      fetchPolicy: "network-only",
-      errorPolicy: "all"
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all'
     });
   }
 

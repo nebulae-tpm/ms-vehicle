@@ -9,7 +9,7 @@ import {
   VehicleVehiclesSize,
   getHelloWorld,
   VehicleHelloWorldSubscription
-} from '../gql/Vehicle';
+} from '../gql/vehicle';
 
 @Injectable()
 export class VehicleListService {

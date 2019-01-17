@@ -5,7 +5,7 @@ import { GatewayService } from '../../../api/gateway.service';
 import {
   getHelloWorld,
   VehicleHelloWorldSubscription
-} from './gql/Vehicle';
+} from './gql/vehicle';
 
 @Injectable()
 export class VehicleService {

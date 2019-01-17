@@ -5,16 +5,16 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef
-} from "@angular/core";
+} from '@angular/core';
 
 import {
   FormBuilder,
   FormGroup,
   FormControl,
   Validators
-} from "@angular/forms";
+} from '@angular/forms';
 
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute } from '@angular/router';
 
 ////////// RXJS ///////////
 import {
@@ -29,9 +29,9 @@ import {
   debounceTime,
   distinctUntilChanged,
   take
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
-import { Subject, fromEvent, of, forkJoin, Observable, concat, combineLatest } from "rxjs";
+import { Subject, fromEvent, of, forkJoin, Observable, concat, combineLatest } from 'rxjs';
 
 ////////// ANGULAR MATERIAL //////////
 import {
@@ -40,34 +40,34 @@ import {
   MatTableDataSource,
   MatSnackBar,
   MatDialog
-} from "@angular/material";
-import { fuseAnimations } from "../../../../core/animations";
+} from '@angular/material';
+import { fuseAnimations } from '../../../../core/animations';
 
 //////////// i18n ////////////
 import {
   TranslateService,
   LangChangeEvent,
   TranslationChangeEvent
-} from "@ngx-translate/core";
-import { locale as english } from "../i18n/en";
-import { locale as spanish } from "../i18n/es";
-import { FuseTranslationLoaderService } from "../../../../core/services/translation-loader.service";
+} from '@ngx-translate/core';
+import { locale as english } from '../i18n/en';
+import { locale as spanish } from '../i18n/es';
+import { FuseTranslationLoaderService } from '../../../../core/services/translation-loader.service';
 
 ///////// DATEPICKER //////////
-import { MAT_MOMENT_DATE_FORMATS } from "./my-date-format";
+import { MAT_MOMENT_DATE_FORMATS } from './my-date-format';
 import {
   DateAdapter,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
   MomentDateAdapter
-} from "@coachcare/datepicker";
+} from '@coachcare/datepicker';
 
-import * as moment from "moment";
+import * as moment from 'moment';
 
 //////////// Other Services ////////////
-import { KeycloakService } from "keycloak-angular";
+import { KeycloakService } from 'keycloak-angular';
 import { VehicleListService } from './vehicle-list.service';
-import { ToolbarService } from "../../../toolbar/toolbar.service";
+import { ToolbarService } from '../../../toolbar/toolbar.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -76,7 +76,7 @@ import { ToolbarService } from "../../../toolbar/toolbar.service";
   styleUrls: ['./vehicle-list.component.scss'],
   animations: fuseAnimations,
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: "es" },
+    { provide: MAT_DATE_LOCALE, useValue: 'es' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -86,12 +86,12 @@ import { ToolbarService } from "../../../toolbar/toolbar.service";
   ]
 })
 export class VehicleListComponent implements OnInit, OnDestroy {
-  //Subject to unsubscribe 
+  // Subject to unsubscribe
   private ngUnsubscribe = new Subject();
 
   //////// FORMS //////////
   filterForm: FormGroup;
-  
+
 
   /////// TABLE /////////
 
@@ -105,19 +105,19 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
   // Columns to show in the table
   displayedColumns = [
-    "name",
-    "state",
-    "creationTimestamp",
-    "creatorUser",
-    "modificationTimestamp",
-    "modifierUser"
+    'name',
+    'state',
+    'creationTimestamp',
+    'creatorUser',
+    'modificationTimestamp',
+    'modifierUser'
   ];
 
   /////// OTHERS ///////
 
   selectedVehicle: any = null;
 
-  constructor(    
+  constructor(
     private formBuilder: FormBuilder,
     private translationLoader: FuseTranslationLoaderService,
     private translate: TranslateService,
@@ -129,14 +129,14 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     private VehicleListservice: VehicleListService,
     private toolbarService: ToolbarService,
     private dialog: MatDialog
-  ) {    
+  ) {
       this.translationLoader.loadTranslations(english, spanish);
   }
-    
+
 
   ngOnInit() {
     this.onLangChange();
-    this.buildFilterForm();  
+    this.buildFilterForm();
     this.updateFilterDataSubscription();
     this.updatePaginatorDataSubscription();
     this.loadLastFilters();
@@ -170,7 +170,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Emits the paginator data when it changes   
+   * Emits the paginator data when it changes
    */
   listenPaginatorChanges$() {
     return this.paginator.page;
@@ -184,9 +184,9 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     this.filterForm = this.formBuilder.group({
       name: [null],
       creationTimestamp: [null],
-      creatorUser: [null],      
-      //modificationDate: [null],
-      //modifierUser: [null],
+      creatorUser: [null],
+      // modificationDate: [null],
+      // modifierUser: [null],
     });
 
     this.filterForm.disable({
@@ -242,12 +242,12 @@ export class VehicleListComponent implements OnInit, OnDestroy {
             this.tablePage = paginator.pagination.page;
             this.tableCount = paginator.pagination.count;
           }
-        
+
 
         this.filterForm.enable({ emitEvent: true });
       });
   }
-  
+
   /**
    * If a change is detect in the filter or the paginator then the table will be refreshed according to the values emmited
    */
@@ -259,9 +259,9 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     ).pipe(
       debounceTime(500),
       filter(([filter, paginator, selectedBusiness]) => (filter != null && paginator != null)),
-      map(([filter, paginator,selectedBusiness]) => {
+      map(([filter, paginator, selectedBusiness]) => {
         const filterInput = {
-          businessId: selectedBusiness ? selectedBusiness.id: null,
+          businessId: selectedBusiness ? selectedBusiness.id : null,
           name: filter.name,
           creatorUser: filter.creatorUser,
           creationTimestamp: filter.creationTimestamp ? filter.creationTimestamp.valueOf() : null
@@ -272,26 +272,26 @@ export class VehicleListComponent implements OnInit, OnDestroy {
           sort: paginator.pagination.sort,
         };
 
-        return [filterInput, paginationInput]
+        return [filterInput, paginationInput];
       }),
       mergeMap(([filterInput, paginationInput]) => {
         return forkJoin(
           this.getvehicleList$(filterInput, paginationInput),
           this.getvehicleSize$(filterInput),
-        )
+        );
       }),
       takeUntil(this.ngUnsubscribe)
     )
     .subscribe(([list, size]) => {
       this.dataSource.data = list;
       this.tableSize = size;
-    })
+    });
   }
 
   /**
    * Gets the vehicle list
-   * @param filterInput 
-   * @param paginationInput 
+   * @param filterInput
+   * @param paginationInput
    */
   getvehicleList$(filterInput, paginationInput){
     return this.VehicleListservice.getvehicleList$(filterInput, paginationInput)
@@ -303,12 +303,13 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
     /**
    * Gets the vehicle size
-   * @param filterInput 
+   * @param filterInput
    */
   getvehicleSize$(filterInput){
     return this.VehicleListservice.getvehicleSize$(filterInput)
     .pipe(
       mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
+      tap(r => console.log('RESPONSE ==> ', r)),
       map(resp => resp.data.VehicleVehiclesSize)
     );
   }
@@ -336,12 +337,12 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     .pipe(
       take(1)
     ).subscribe(selectedBusiness => {
-      if(selectedBusiness == null || selectedBusiness.id == null){
+      if (selectedBusiness == null || selectedBusiness.id == null){
         this.showSnackBar('VEHICLE.SELECT_BUSINESS');
       }else{
         this.router.navigate(['vehicle/new']);
-      }      
-    })    
+      }
+    });
   }
 
   showSnackBar(message) {
@@ -370,11 +371,11 @@ export class VehicleListComponent implements OnInit, OnDestroy {
         response.errors.forEach(error => {
           if (Array.isArray(error)) {
             error.forEach(errorDetail => {
-              this.showMessageSnackbar("ERRORS." + errorDetail.message.code);
+              this.showMessageSnackbar('ERRORS.' + errorDetail.message.code);
             });
           } else {
             response.errors.forEach(errorData => {
-              this.showMessageSnackbar("ERRORS." + errorData.message.code);
+              this.showMessageSnackbar('ERRORS.' + errorData.message.code);
             });
           }
         });
@@ -399,15 +400,15 @@ export class VehicleListComponent implements OnInit, OnDestroy {
 
     this.translate.get(translationData).subscribe(data => {
       this.snackBar.open(
-        messageKey ? data[messageKey] : "",
-        detailMessageKey ? data[detailMessageKey] : "",
+        messageKey ? data[messageKey] : '',
+        detailMessageKey ? data[detailMessageKey] : '',
         {
           duration: 2000
         }
       );
     });
   }
-  
+
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

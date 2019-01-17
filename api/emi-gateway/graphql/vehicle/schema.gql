@@ -5,7 +5,7 @@ type CommandResponse {
   message: String
 }
 
-type VehicleVehicle {
+type VehicleVehicleEntity {
   "Vehicle ID"
   _id: ID!
   "User general info"
@@ -73,11 +73,11 @@ input VehicleVehicleGeneralInfoInput {
 
 type Query {
   "Get Vehicles filtered "
-  VehicleVehicles(filterInput: FilterInput!, paginationInput: PaginationInput!): [VehicleVehicle]
+  VehicleVehicles(filterInput: FilterInput!, paginationInput: PaginationInput!): [VehicleVehicleEntity]
   "Get the amount of Vehicles filtered "
   VehicleVehiclesSize(filterInput: FilterInput!): Int!
   "Get Vehicle by its id"
-  VehicleVehicle(id: String!): VehicleVehicle
+  VehicleVehicle(id: String!): VehicleVehicleEntity
 }
 
 type Mutation {
@@ -91,5 +91,5 @@ type Mutation {
 
 type Subscription {
   "This events is triggered when a Vehicle is created or updated"
-  VehicleVehicleUpdatedSubscription: VehicleVehicle  
+  VehicleVehicleUpdatedSubscription: VehicleVehicleEntity  
 }

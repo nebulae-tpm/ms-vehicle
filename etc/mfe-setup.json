@@ -30,8 +30,12 @@
                 "default" : false
             }            
         ],
-        "preBuildCommands": [],
-        "environmentVars": {
-        }
+        "preBuildCommands": [
+            "npm install @types/googlemaps --save"
+        ],
+        "indexHeadAmends": [
+            "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBhdfrEECCO3UeCjJngNhuo87upTFL20hA' async defer></script>"
+        ],
+        "environmentVars": {}
     }
 ]
