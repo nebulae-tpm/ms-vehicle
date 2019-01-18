@@ -48,7 +48,7 @@ export class VehicleDetailService {
   /**
    * Unregisters an operation, this is useful to indicate that we are not longer waiting for the response of the last operation
    */
-  resetOperation$(){
+  resetOperation$() {
     return of('').pipe(
       tap(() => {
         this.lastOperation = null;
@@ -59,52 +59,46 @@ export class VehicleDetailService {
 
   createVehicleVehicle$(vehicle: any) {
     return this.createOperation$(vehicle)
-    .pipe(
-      mergeMap(() => {
-        return this.gateway.apollo
-        .mutate<any>({
-          mutation: VehicleCreateVehicle,
-          variables: {
-            input: vehicle
-          },
-          errorPolicy: 'all'
-        });
-      })
-    );
+      .pipe(
+        mergeMap(() => this.gateway.apollo
+          .mutate<any>({
+            mutation: VehicleCreateVehicle,
+            variables: {
+              input: vehicle
+            },
+            errorPolicy: 'all'
+          }))
+      );
   }
 
   updateVehicleVehicleGeneralInfo$(id: String, vehicleGeneralInfo: any) {
     return this.updateOperation$(vehicleGeneralInfo)
-    .pipe(
-      mergeMap(() => {
-        return this.gateway.apollo
-        .mutate<any>({
-          mutation: VehicleUpdateVehicleGeneralInfo,
-          variables: {
-            id: id,
-            input: vehicleGeneralInfo
-          },
-          errorPolicy: 'all'
-        });
-      })
-    );
+      .pipe(
+        mergeMap(() => this.gateway.apollo
+          .mutate<any>({
+            mutation: VehicleUpdateVehicleGeneralInfo,
+            variables: {
+              id: id,
+              input: vehicleGeneralInfo
+            },
+            errorPolicy: 'all'
+          }))
+      );
   }
 
-  updateVehicleVehicleFeatures$(id: String, vehicleFeatures: any){
+  updateVehicleVehicleFeatures$(id: String, vehicleFeatures: any) {
     return this.updateOperation$(vehicleFeatures)
-    .pipe(
-      mergeMap(() => {
-        return this.gateway.apollo
-        .mutate<any>({
-          mutation: VehicleUpdateVehicleGeneralInfo,
-          variables: {
-            id: id,
-            input: vehicleFeatures
-          },
-          errorPolicy: 'all'
-        });
-      })
-    );
+      .pipe(
+        mergeMap(() => this.gateway.apollo
+          .mutate<any>({
+            mutation: VehicleUpdateVehicleGeneralInfo,
+            variables: {
+              id: id,
+              input: vehicleFeatures
+            },
+            errorPolicy: 'all'
+          }))
+      );
   }
 
   updateVehicleVehicleState$(id: String, newState: boolean) {
@@ -133,11 +127,11 @@ export class VehicleDetailService {
 /**
  * Event triggered when a business is created, updated or deleted.
  */
-subscribeVehicleVehicleUpdatedSubscription$(): Observable<any> {
-  return this.gateway.apollo
-  .subscribe({
-    query: VehicleVehicleUpdatedSubscription
-  });
-}
+  subscribeVehicleVehicleUpdatedSubscription$(): Observable<any> {
+    return this.gateway.apollo
+      .subscribe({
+        query: VehicleVehicleUpdatedSubscription
+      });
+  }
 
 }

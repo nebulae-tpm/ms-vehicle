@@ -77,10 +77,10 @@ export class VehicleDetailComponent implements OnInit, OnDestroy {
     this.route.params
     .pipe(
       map(params => params['id']),
-      mergeMap(entityId => entityId !== 'new' ?
-        this.VehicleDetailservice.getVehicleVehicle$(entityId).pipe(
-          map(res => res.data.VehicleVehicle)
-        ) : of(null)
+      mergeMap(entityId => entityId !== 'new'
+        ? this.VehicleDetailservice.getVehicleVehicle$(entityId)
+            .pipe(map(res => res.data.VehicleVehicle))
+        : of(null)
       ),
       takeUntil(this.ngUnsubscribe)
     )

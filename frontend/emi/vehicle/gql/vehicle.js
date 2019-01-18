@@ -21,8 +21,8 @@ export const VehicleHelloWorldSubscription = gql`
 }`;
 
 export const VehicleVehicle = gql`
-  query VehicleVehicleEntity($id: String!) {
-    VehicleVehicleEntity(id: $id) {
+  query VehicleVehicle($id: String!) {
+    VehicleVehicle(id: $id) {
       _id
       generalInfo {
         licensePlate

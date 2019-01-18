@@ -144,13 +144,14 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
   updateVehicleGeneralInfo() {
     this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE', {})
       .pipe(
-        mergeMap(ok => {
-          const generalInfoinput = {
+        mergeMap(() => this.VehicleDetailservice.updateVehicleVehicleGeneralInfo$(
+          this.vehicle._id, {
             licensePlate: this.vehicleGeneralInfoForm.getRawValue().licensePlate,
-            model: this.vehicleGeneralInfoForm.getRawValue().model
-          };
-          return this.VehicleDetailservice.updateVehicleVehicleGeneralInfo$(this.vehicle._id, generalInfoinput);
-        }),
+            model: this.vehicleGeneralInfoForm.getRawValue().model,
+            brand: this.vehicleGeneralInfoForm.getRawValue().brand,
+            line: this.vehicleGeneralInfoForm.getRawValue().line
+          }
+        )),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
         filter((resp: any) => !resp.errors || resp.errors.length === 0),
         takeUntil(this.ngUnsubscribe)
