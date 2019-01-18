@@ -52,6 +52,14 @@ class VehicleES {
         );
     }
 
+    handleVehicleFeaturesUpdated$(VehicleVehicleFeaturesUpdatedEvent){
+        return VehicleDA.updateVehicleFeatures$(VehicleVehicleFeaturesUpdatedEvent.aid, VehicleVehicleFeaturesUpdatedEvent.data)
+        .pipe(
+            mergeMap(result => broker.send$(MATERIALIZED_VIEW_TOPIC, `VehicleVehicleUpdatedSubscription`, result))
+        )
+
+    }
+
 }
 
 

@@ -7,7 +7,8 @@ import {
   VehicleUpdateVehicleGeneralInfo,
   VehicleUpdateVehicleState,
   VehicleVehicle,
-  VehicleVehicleUpdatedSubscription
+  VehicleVehicleUpdatedSubscription,
+  VehicleUpdateVehicleFeatures
 } from '../gql/vehicle.js';
 
 @Injectable()
@@ -87,11 +88,12 @@ export class VehicleDetailService {
   }
 
   updateVehicleVehicleFeatures$(id: String, vehicleFeatures: any) {
+    console.log('----------', id, vehicleFeatures);
     return this.updateOperation$(vehicleFeatures)
       .pipe(
         mergeMap(() => this.gateway.apollo
           .mutate<any>({
-            mutation: VehicleUpdateVehicleGeneralInfo,
+            mutation: VehicleUpdateVehicleFeatures,
             variables: {
               id: id,
               input: vehicleFeatures

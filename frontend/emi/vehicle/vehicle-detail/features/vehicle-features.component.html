@@ -9,39 +9,49 @@
             </mat-error>
         </mat-form-field>
         <mat-form-field class="w-100-p">
-            <input matInput name="capacity" formControlName="capacity" maxlength="15" placeholder="{{'VEHICLE.DETAILS.CAPACITY' | translate}}">
+            <input type="number" matInput name="capacity" formControlName="capacity" maxlength="15" placeholder="{{'VEHICLE.DETAILS.CAPACITY' | translate}}">
             <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['capacity'])">
                 {{'VEHICLE.CAPACITY_REQUIRED' | translate}}
             </mat-error>
         </mat-form-field>
 
-        <div class="profile-box info-box work" fxLayout="column">
 
-            <header class="mat-accent-bg">
-                <div class="title">{{'PROFILE.ROLES' | translate}}</div>
-            </header>
-
-            <div class="content">
-                <!-- <div class="info-line" *ngFor="let userRole of userRoles"> -->
-                <mat-chip-list matPrefix fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <mat-chip *ngFor="let block of blockings" [selectable]="true" [removable]="true" (removed)="removeBlock(block)" style="margin-top: 5px">
-                        {{block}}
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
-                </mat-chip-list>
-                <!-- </div> -->
-            </div>
+        <p>{{ 'VEHICLE.DETAILS.OTHERS_DETAILS' | translate }}</p>
+        <div fxFlex="100" formArrayName="others" *ngFor="let feature of vehicleFeaturesForm.get('others').controls ; let i = index;">
+          <div [formGroupName]="i">
+              <mat-checkbox class="example-margin"  [formControlName]="'active'">
+                  {{ 'VEHICLE.FEATURES.OTHERS.' + feature.get('name').value | translate }}
+              </mat-checkbox>
+          </div>
+         <!-- orderForm.controls.items.controls[i].controls.name.value -->
         </div>
 
 
 
+
+
+        <!-- <div class="profile-box info-box work" fxLayout="column">
+
+          <header class="mat-accent-bg">
+            <div class="title">{{'PROFILE.ROLES' | translate}}</div>
+          </header>
+
+          <div class="content">
+            <mat-chip-list matPrefix fxLayout="row" fxLayoutAlign="space-evenly center">
+              <mat-chip *ngFor="let block of blockings" [selectable]="true" [removable]="true" (removed)="removeBlock(block)"
+                style="margin-top: 5px">
+                {{block}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div> -->
+
+
         <div class="mt-16">
-            <button mat-raised-button *ngIf="pageType === 'new'" (click)="createVehicle()" [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
-          {{'VEHICLE.CREATE' | translate}}
-        </button>
-            <button mat-raised-button *ngIf="pageType === 'edit'" (click)="updateVehicleFeatures()" [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
-          {{'VEHICLE.UPDATE' | translate}}
-        </button>
+          <button mat-raised-button *ngIf="pageType === 'edit'" (click)="updateVehicleFeatures()" [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
+            {{'VEHICLE.UPDATE' | translate}}
+          </button>
         </div>
 
     </form>

@@ -169,6 +169,10 @@ class GraphQlService {
         aggregateType: "Vehicle",
         messageType: "emi-gateway.graphql.mutation.VehicleUpdateVehicleState"
       },
+      {
+        aggregateType: "Vehicle",
+        messageType: "emi-gateway.graphql.mutation.vehicleUpdateVehicleFeatures"
+      },
     ];
   }
 
@@ -200,6 +204,10 @@ class GraphQlService {
       },
       "emi-gateway.graphql.mutation.VehicleUpdateVehicleState": {
         fn: VehicleCQRS.updateVehicleState$,
+        obj: VehicleCQRS
+      },
+      "emi-gateway.graphql.mutation.vehicleUpdateVehicleFeatures": {
+        fn: VehicleCQRS.updateVehicleFeatures$,
         obj: VehicleCQRS
       }
     };

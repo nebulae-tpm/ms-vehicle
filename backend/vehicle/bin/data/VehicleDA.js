@@ -154,6 +154,28 @@ class VehicleDA {
     );
   }
 
+  static updateVehicleFeatures$(id, newData) {
+    console.log(id, newData);
+    const collection = mongoDB.db.collection(CollectionName);
+    return defer(() => collection.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          features: newData.features,
+          modifierUser: newData.modifierUser,
+          modificationTimestamp: newData.modificationTimestamp
+        }
+      },
+      {
+        returnOriginal: false
+      }
+    )
+    ).pipe(
+      map(result => result && result.value ? result.value : undefined)
+    );
+
+  }
+
 }
 /**
  * @returns {VehicleDA}

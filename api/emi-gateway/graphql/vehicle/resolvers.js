@@ -189,7 +189,7 @@ module.exports = {
                 mergeMap(() =>
                     context.broker.forwardAndGetReply$(
                         "Vehicle",
-                        "emi-gateway.graphql.mutation.VehicleUpdateVehicleFeatures", { root, args, jwt: context.encodedToken },
+                        "emi-gateway.graphql.mutation.vehicleUpdateVehicleFeatures", { root, args, jwt: context.encodedToken },
                         2000
                     )
                 ),

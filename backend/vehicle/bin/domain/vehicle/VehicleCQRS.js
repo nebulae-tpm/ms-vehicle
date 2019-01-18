@@ -213,6 +213,41 @@ class VehicleCQRS {
   }
 
 
+  updateVehicleFeatures$({ root, args, jwt }, authToken) {    
+    const vehicleUpdate = {
+      _id: args.id,
+      features: args.input,
+      modifierUser: authToken.preferred_username,
+      modificationTimestamp: new Date().getTime()
+    };
+
+    console.log(vehicleUpdate);
+
+    return RoleValidator.checkPermissions$(
+      authToken.realm_access.roles,
+      "vehicleUpdate",
+      "updateVehicleState$",
+      PERMISSION_DENIED,
+      ["PLATFORM-ADMIN"]
+    ).pipe(
+      mergeMap(() => eventSourcing.eventStore.emitEvent$(
+        new Event({
+          eventType: "VehicleFeaturesUpdated",
+          eventTypeVersion: 1,
+          aggregateType: "Vehicle",
+          aggregateId: vehicleUpdate._id,
+          data: vehicleUpdate,
+          user: authToken.preferred_username
+        })
+      )
+      ),
+      map(() => ({ code: 200, message: `Vehicle with id: ${vehicleUpdate._id} has been updated` })),
+      mergeMap(r => GraphqlResponseTools.buildSuccessResponse$(r)),
+      catchError(err => GraphqlResponseTools.handleError$(err))
+    );
+  }
+
+
   //#endregion
 
 

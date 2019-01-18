@@ -30,7 +30,14 @@ export const VehicleVehicle = gql`
         brand
         line
       }
-      blockings
+      features {
+        fuel
+        capacity
+        others {
+          name
+          active
+        }
+      }
       state
       creationTimestamp
       creatorUser
@@ -77,6 +84,15 @@ export const VehicleCreateVehicle = gql `
 export const VehicleUpdateVehicleGeneralInfo = gql `
   mutation VehicleUpdateVehicleGeneralInfo($id: ID!, $input: VehicleVehicleGeneralInfoInput!){
     VehicleUpdateVehicleGeneralInfo(id: $id, input: $input){
+      code
+      message
+    }
+  }
+`;
+
+export const VehicleUpdateVehicleFeatures = gql `
+  mutation VehicleUpdateVehicleFeatures($id: ID!, $input: VehicleFeaturesInput!){
+    VehicleUpdateVehicleFeatures(id: $id, input: $input){
       code
       message
     }

@@ -12,8 +12,7 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  Validators,
-  FormArray
+  Validators
 } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -60,21 +59,18 @@ import { ToolbarService } from '../../../../toolbar/toolbar.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'vehicle-features',
-  templateUrl: './vehicle-features.component.html',
-  styleUrls: ['./vehicle-features.component.scss']
+  selector: 'vehicle-blocks',
+  templateUrl: './vehicle-blocks.component.html',
+  styleUrls: ['./vehicle-blocks.component.scss']
 })
 // tslint:disable-next-line:class-name
-export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
+export class VehicleBlocksComponent implements OnInit, OnDestroy {
   // Subject to unsubscribe
   private ngUnsubscribe = new Subject();
 
-  @Input('pageType') pageType: string;
   @Input('vehicle') vehicle: any;
 
-  // otherFeatures = ['AC', 'TRUNK', 'ROOF_RACK', 'PETS', 'BIKE_RACK' ];
-
-  vehicleFeaturesForm: any;
+  vehicleblocksForm: any;
   blockings = `Nikola Tesla Industrial.`.split(' ');
 
   constructor(
@@ -93,51 +89,44 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.vehicleFeaturesForm = new FormGroup({
-      fuel: new FormControl(this.vehicle ? (this.vehicle.features || {}).fuel : ''),
-      capacity: new FormControl(this.vehicle ? (this.vehicle.features || {}).capacity : ''),
-      others : new FormArray([])
+    this.vehicleblocksForm = new FormGroup({
+      fuel: new FormControl(this.vehicle ? (this.vehicle.blocks || {}).fuel : ''),
+      capacity: new FormControl(this.vehicle ? (this.vehicle.blocks || {}).capacity : '')
     });
-
-
-   this.vehicle.features.others.forEach(feature => {
-      (this.vehicleFeaturesForm.get('others') as FormArray).push(
-        new FormGroup({
-          name: new FormControl(feature.name),
-          active: new FormControl(feature.active)
-        })
-      );
-    });
-
-
   }
 
-
-  updateVehicleFeatures() {
-    console.log(this.vehicleFeaturesForm.getRawValue() );
-    this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
-      .pipe(
-        mergeMap(ok =>
-          this.VehicleDetailservice.updateVehicleVehicleFeatures$(this.vehicle._id, {
-            fuel: this.vehicleFeaturesForm.getRawValue().fuel,
-            capacity: this.vehicleFeaturesForm.getRawValue().capacity,
-            others: this.vehicleFeaturesForm.getRawValue().others
-
-          })
-        ),
-        mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
-        filter((resp: any) => !resp.errors || resp.errors.length === 0),
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(result => {
+  createVehicle() {
+    this.toolbarService.onSelectedBusiness$
+    .pipe(
+      tap(selectedBusiness => {
+        if (!selectedBusiness){
+          this.showSnackBar('VEHICLE.SELECT_BUSINESS');
+        }
+      }),
+      filter(selectedBusiness => selectedBusiness != null && selectedBusiness.id != null),
+      mergeMap(selectedBusiness => {
+        return this.showConfirmationDialog$('VEHICLE.CREATE_MESSAGE', 'VEHICLE.CREATE_TITLE')
+        .pipe(
+          mergeMap(ok => {
+            this.vehicle = {
+              blocks: this.vehicleblocksForm.getRawValue(),
+              businessId: selectedBusiness.id
+            };
+            return this.VehicleDetailservice.createVehicleVehicle$(this.vehicle);
+          }),
+          mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
+          filter((resp: any) => !resp.errors || resp.errors.length === 0)
+        );
+      }),
+      takeUntil(this.ngUnsubscribe)
+    ).subscribe(result => {
         this.showSnackBar('VEHICLE.WAIT_OPERATION');
       },
         error => {
           this.showSnackBar('VEHICLE.ERROR_OPERATION');
           console.log('Error ==> ', error);
         }
-      );
-
+    );
   }
 
 

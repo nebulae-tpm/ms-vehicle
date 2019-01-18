@@ -13,7 +13,7 @@ type VehicleVehicleEntity {
   "Vehicle state"
   state: Boolean!
   "Vehicle features"
-  features: VehicleFeatures!
+  features: VehicleFeatures
   "Vehicle blocking"
   blockings: [String]
   "Creation timestamp"
@@ -51,7 +51,7 @@ input VehicleOtherFeaturesInput{
 
 type VehicleFeatures {
   "Fuel type"
-  fuelType: String
+  fuel: String
   "Passenger capacity"
   capacity: Int
   "Others features"
@@ -61,7 +61,7 @@ type VehicleFeatures {
 
 input VehicleFeaturesInput{
   "Fuel type"
-  fuelType: String
+  fuel: String
   "Passenger capacity"
   capacity: Int
   "Others features"
@@ -141,7 +141,7 @@ type Mutation {
   VehicleUpdateVehicleState(id: ID!, newState: Boolean!): CommandResponse
   VehicleAddVehicleBlocking(id: ID!, blocking: String!): CommandResponse
   VehicleRemoveVehicleBlocking(id: ID!, blocking: String!): CommandResponse
-  VehicleUpdateVehicleFeatures(id: ID!, features: VehicleFeaturesInput!): CommandResponse
+  VehicleUpdateVehicleFeatures(id: ID!, input: VehicleFeaturesInput!): CommandResponse
 }
 
 type Subscription {

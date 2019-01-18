@@ -14,6 +14,7 @@ import { ToolbarService } from '../../toolbar/toolbar.service';
 import { DialogComponent } from './dialog/dialog.component';
 import { VehicleDetailFeaturesComponent } from './vehicle-detail/features/vehicle-features.component';
 import { VehicleLocationComponent } from './vehicle-detail/location/vehicle-location.component';
+import { VehicleBlocksComponent } from './vehicle-detail/vehicle-blocks/vehicle-blocks.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,8 @@ const routes: Routes = [
     VehicleDetailComponent,
     VehicleDetailGeneralInfoComponent,
     VehicleDetailFeaturesComponent,
-    VehicleLocationComponent
+    VehicleLocationComponent,
+    VehicleBlocksComponent
   ],
   entryComponents: [DialogComponent],
   providers: [ VehicleService, VehicleListService, VehicleDetailService, DatePipe]
