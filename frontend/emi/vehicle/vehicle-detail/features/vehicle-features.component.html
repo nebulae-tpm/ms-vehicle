@@ -24,7 +24,7 @@
             <div class="content">
                 <!-- <div class="info-line" *ngFor="let userRole of userRoles"> -->
                 <mat-chip-list matPrefix fxLayout="row" fxLayoutAlign="space-evenly center">
-                    <mat-chip *ngFor="let block of blockings" removable="true" style="margin-top: 5px">
+                    <mat-chip *ngFor="let block of blockings" [selectable]="true" [removable]="true" (removed)="removeBlock(block)" style="margin-top: 5px">
                         {{block}}
                         <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
