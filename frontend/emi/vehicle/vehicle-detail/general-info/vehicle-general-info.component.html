@@ -20,9 +20,9 @@
         </mat-form-field>
 
         <mat-form-field fxFlex.gt-xs="50" fxFlex="100" fxLayout="column" class="pr-8 pl-8">
-            <input required matInput matTextareaAutosize name="model" formControlName="model" maxlength="350" placeholder="{{'VEHICLE.DETAILS.MODEL_YEAR' | translate}}" matAutosizeMinRows="1" matAutosizeMaxRows="5">
+            <input type="number" required matInput matTextareaAutosize name="model" formControlName="model" maxlength="350" placeholder="{{'VEHICLE.DETAILS.MODEL' | translate}}" matAutosizeMinRows="1" matAutosizeMaxRows="5">
             <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['model'])">
-                {{'VEHICLE.MODEL_YEAR_REQUIRED' | translate}}
+                {{'VEHICLE.MODEL_REQUIRED' | translate}}
             </mat-error>
         </mat-form-field>
 

@@ -24,8 +24,10 @@ export const locale = {
         GENERAL_INFO: 'Información general',
         ENABLED: 'Activo',
         DISABLED: 'Desactivado',
-        NAME: 'Nombre',
-        DESCRIPTION: 'Descripción'
+        LICENSE_PLATE: 'Placa',
+        MODEL: 'Modelo',
+        BRAND: 'Marca',
+        LINE: 'Línea' 
       },
       ACTIVE: 'Activo',
       LICENSE_PLATE: 'Placa',

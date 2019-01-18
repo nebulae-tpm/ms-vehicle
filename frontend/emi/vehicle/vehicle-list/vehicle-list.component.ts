@@ -151,7 +151,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     this.translate.onLangChange
       .pipe(
         startWith({ lang: this.translate.currentLang }),
-        takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe),
       )
       .subscribe(event => {
         if (event) {
@@ -183,7 +183,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
   buildFilterForm() {
     // Reactive Filter Form
     this.filterForm = this.formBuilder.group({
-      name: [null],
+      licensePlate: [null],
       creationTimestamp: [null],
       creatorUser: [null],
       // modificationDate: [null],
@@ -199,11 +199,10 @@ export class VehicleListComponent implements OnInit, OnDestroy {
   updateFilterDataSubscription() {
     this.listenFilterFormChanges$()
       .pipe(
-        takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe),
+        tap( filterData =>  this.VehicleListservice.updateFilterData(filterData)) // --
       )
-      .subscribe(filterData => {
-        this.VehicleListservice.updateFilterData(filterData);
-      });
+      .subscribe();
   }
 
   updatePaginatorDataSubscription() {
@@ -229,24 +228,24 @@ export class VehicleListComponent implements OnInit, OnDestroy {
       this.VehicleListservice.filter$,
       this.VehicleListservice.paginator$
     ).pipe(
-      take(1)
-    ).subscribe(([filterValue, paginator]) => {
-          if (filter) {
-            this.filterForm.patchValue({
-              name: filter.name,
-              creationTimestamp: filterValue.creationTimestamp,
-              creatorUser: filterValue.creatorUser
-            });
-          }
+      take(1),
+      map(([filterValue, paginator]) => {
+        if (filterValue) {
+          this.filterForm.patchValue({
+            licensePlate: filterValue.licensePlate,
+            creationTimestamp: filterValue.creationTimestamp,
+            creatorUser: filterValue.creatorUser
+          });
+        }
 
-          if (paginator) {
-            this.tablePage = paginator.pagination.page;
-            this.tableCount = paginator.pagination.count;
-          }
+        if (paginator) {
+          this.tablePage = paginator.pagination.page;
+          this.tableCount = paginator.pagination.count;
+        }
 
-
-        this.filterForm.enable({ emitEvent: true });
-      });
+        return this.filterForm.enable({ emitEvent: true });
+      })
+    ).subscribe(() => console.log(''), err => console.log(err), () => console.log('COMPLETED'));
   }
 
   /**
@@ -258,7 +257,7 @@ export class VehicleListComponent implements OnInit, OnDestroy {
           ([filterValue, paginator, selectedBusiness]) => {
             const filterInput = {
               businessId: selectedBusiness ? selectedBusiness.id : null,
-              name: filterValue.name,
+              licensePlate: filterValue.licensePlate,
               creatorUser: filterValue.creatorUser,
               creationTimestamp: filterValue.creationTimestamp
                 ? filterValue.creationTimestamp.valueOf()

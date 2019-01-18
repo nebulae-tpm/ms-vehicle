@@ -91,14 +91,6 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.vehicle = {
-      generalInfo: {
-        licensePlate: 'TKM909',
-        model: 2018,
-        brand: 'KIA',
-        line: 'sport'
-      }
-    };
     console.log('VEHICULO QUE ENTRA ==> ', this.vehicle);
     this.vehicleGeneralInfoForm = new FormGroup({
       licensePlate: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).licensePlate : ''),
@@ -116,13 +108,13 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
     this.toolbarService.onSelectedBusiness$
     .pipe(
       tap(selectedBusiness => {
-        if (!selectedBusiness){
+        if (!selectedBusiness || selectedBusiness.id == null){
           this.showSnackBar('VEHICLE.SELECT_BUSINESS');
         }
       }),
+      take(1),
       filter(selectedBusiness => selectedBusiness != null && selectedBusiness.id != null),
-      mergeMap(selectedBusiness => {
-        return this.showConfirmationDialog$('VEHICLE.CREATE_MESSAGE', 'VEHICLE.CREATE_TITLE', {})
+      mergeMap(selectedBusiness => this.showConfirmationDialog$('VEHICLE.CREATE_MESSAGE', 'VEHICLE.CREATE_TITLE', {})
         .pipe(
           mergeMap(ok => {
             this.vehicle = {
@@ -130,21 +122,23 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
               state: this.vehicleStateForm.getRawValue().state,
               businessId: selectedBusiness.id
             };
+            console.log('###### VEHICLE ########',  this.vehicle);
             return this.VehicleDetailservice.createVehicleVehicle$(this.vehicle);
           }),
           mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
           filter((resp: any) => !resp.errors || resp.errors.length === 0),
-        );
-      }),
+        )),
       takeUntil(this.ngUnsubscribe)
-    ).subscribe(result => {
+    )
+      .subscribe(result => {
         this.showSnackBar('VEHICLE.WAIT_OPERATION');
       },
         error => {
           this.showSnackBar('VEHICLE.ERROR_OPERATION');
           console.log('Error ==> ', error);
-        }
-    );
+        },
+        () => console.log('COMPLETED')
+      );
   }
 
   updateVehicleGeneralInfo() {

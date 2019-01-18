@@ -57,7 +57,7 @@ export class VehicleListService {
   /**
    * Gets the vehicle list
    * @param filter Data to filter the list
-   * @param paginator Object that contains info about page number and amount of records to recover 
+   * @param paginator Object that contains info about page number and amount of records to recover
    * @returns {Observable} Observable with the vehicle list
    */
   getvehicleList$(filterInput, paginatorInput){
@@ -103,7 +103,7 @@ export class VehicleListService {
    * @returns {Observable<any>}
    */
   get paginator$(): Observable<any> {
-    return this._paginatorSubject$.asObservable()
+    return this._paginatorSubject$.asObservable();
   }
 
   updateFilterData(filterData){

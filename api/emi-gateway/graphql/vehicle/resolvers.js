@@ -5,26 +5,26 @@ const { of } = require("rxjs");
 const { map, mergeMap, catchError } = require('rxjs/operators');
 const broker = require("../../broker/BrokerFactory")();
 const RoleValidator = require('../../tools/RoleValidator');
-const {handleError$} = require('../../tools/GraphqlResponseTools');
+const { handleError$ } = require('../../tools/GraphqlResponseTools');
 
 const INTERNAL_SERVER_ERROR_CODE = 1;
 const PERMISSION_DENIED_ERROR_CODE = 2;
 
 function getResponseFromBackEnd$(response) {
     return of(response)
-    .pipe(
-        map(resp => {
-            if (resp.result.code != 200) {
-                const err = new Error();
-                err.name = 'Error';
-                err.message = resp.result.error;
-                // this[Symbol()] = resp.result.error;
-                Error.captureStackTrace(err, 'Error');
-                throw err;
-            }
-            return resp.data;
-        })
-    );
+        .pipe(
+            map(resp => {
+                if (resp.result.code != 200) {
+                    const err = new Error();
+                    err.name = 'Error';
+                    err.message = resp.result.error;
+                    // this[Symbol()] = resp.result.error;
+                    Error.captureStackTrace(err, 'Error');
+                    throw err;
+                }
+                return resp.data;
+            })
+        );
 }
 
 
@@ -34,52 +34,49 @@ module.exports = {
 
     Query: {
         VehicleVehicles(root, args, context) {
-            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-'+'Vehicle', 'VehicleVehicles', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
-            .pipe(
-                mergeMap(() =>
-                    broker
-                    .forwardAndGetReply$(
-                        "Vehicle",
-                        "emi-gateway.graphql.query.VehicleVehicles",
-                        { root, args, jwt: context.encodedToken },
-                        2000
-                    )
-                ),
-                catchError(err => handleError$(err, "VehicleVehicles")),
-                mergeMap(response => getResponseFromBackEnd$(response))
-            ).toPromise();
+            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-' + 'Vehicle', 'VehicleVehicles', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
+                .pipe(
+                    mergeMap(() =>
+                        broker
+                        .forwardAndGetReply$(
+                            "Vehicle",
+                            "emi-gateway.graphql.query.VehicleVehicles", { root, args, jwt: context.encodedToken },
+                            2000
+                        )
+                    ),
+                    catchError(err => handleError$(err, "VehicleVehicles")),
+                    mergeMap(response => getResponseFromBackEnd$(response))
+                ).toPromise();
         },
         VehicleVehiclesSize(root, args, context) {
-            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-'+'Vehicle', 'VehicleVehiclesSize', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
-            .pipe(
-                mergeMap(() =>
-                    broker
-                    .forwardAndGetReply$(
-                        "Vehicle",
-                        "emi-gateway.graphql.query.VehicleVehiclesSize",
-                        { root, args, jwt: context.encodedToken },
-                        2000
-                    )
-                ),
-                catchError(err => handleError$(err, "VehicleVehiclesSize")),
-                mergeMap(response => getResponseFromBackEnd$(response))
-            ).toPromise();
+            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-' + 'Vehicle', 'VehicleVehiclesSize', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
+                .pipe(
+                    mergeMap(() =>
+                        broker
+                        .forwardAndGetReply$(
+                            "Vehicle",
+                            "emi-gateway.graphql.query.VehicleVehiclesSize", { root, args, jwt: context.encodedToken },
+                            2000
+                        )
+                    ),
+                    catchError(err => handleError$(err, "VehicleVehiclesSize")),
+                    mergeMap(response => getResponseFromBackEnd$(response))
+                ).toPromise();
         },
         VehicleVehicle(root, args, context) {
-            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-'+'Vehicle', 'VehicleVehicle', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
-            .pipe(
-                mergeMap(() =>
-                    broker
-                    .forwardAndGetReply$(
-                        "Vehicle",
-                        "emi-gateway.graphql.query.VehicleVehicle",
-                        { root, args, jwt: context.encodedToken },
-                        2000
-                    )
-                ),
-                catchError(err => handleError$(err, "VehicleVehicle")),
-                mergeMap(response => getResponseFromBackEnd$(response))
-            ).toPromise();
+            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-' + 'Vehicle', 'VehicleVehicle', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
+                .pipe(
+                    mergeMap(() =>
+                        broker
+                        .forwardAndGetReply$(
+                            "Vehicle",
+                            "emi-gateway.graphql.query.VehicleVehicle", { root, args, jwt: context.encodedToken },
+                            2000
+                        )
+                    ),
+                    catchError(err => handleError$(err, "VehicleVehicle")),
+                    mergeMap(response => getResponseFromBackEnd$(response))
+                ).toPromise();
         }
     },
 
@@ -87,42 +84,38 @@ module.exports = {
     Mutation: {
         VehicleCreateVehicle(root, args, context) {
             return RoleValidator.checkPermissions$(
-              context.authToken.realm_access.roles,
-              "Vehicle",
-              "VehicleCreateVehicle",
-              PERMISSION_DENIED_ERROR_CODE,
-              "Permission denied",
-              ["PLATFORM-ADMIN"]
-            )
-            .pipe(
-                mergeMap(() =>
-                  context.broker.forwardAndGetReply$(
+                    context.authToken.realm_access.roles,
                     "Vehicle",
-                    "emi-gateway.graphql.mutation.VehicleCreateVehicle",
-                    { root, args, jwt: context.encodedToken },
-                    2000
-                  )
-                ),
-                catchError(err => handleError$(err, "VehicleCreateVehicle")),
-                mergeMap(response => getResponseFromBackEnd$(response))
-            ).toPromise();
+                    "VehicleCreateVehicle",
+                    PERMISSION_DENIED_ERROR_CODE,
+                    "Permission denied", ["PLATFORM-ADMIN"]
+                )
+                .pipe(
+                    mergeMap(() =>
+                        context.broker.forwardAndGetReply$(
+                            "Vehicle",
+                            "emi-gateway.graphql.mutation.VehicleCreateVehicle", { root, args, jwt: context.encodedToken },
+                            2000
+                        )
+                    ),
+                    catchError(err => handleError$(err, "VehicleCreateVehicle")),
+                    mergeMap(response => getResponseFromBackEnd$(response))
+                ).toPromise();
         },
         VehicleUpdateVehicleGeneralInfo(root, args, context) {
             return RoleValidator.checkPermissions$(
-              context.authToken.realm_access.roles,
-              "Vehicle",
-              "VehicleUpdateVehicleGeneralInfo",
-              PERMISSION_DENIED_ERROR_CODE,
-              "Permission denied",
-              ["PLATFORM-ADMIN"]
+                context.authToken.realm_access.roles,
+                "Vehicle",
+                "VehicleUpdateVehicleGeneralInfo",
+                PERMISSION_DENIED_ERROR_CODE,
+                "Permission denied", ["PLATFORM-ADMIN"]
             ).pipe(
                 mergeMap(() =>
-                  context.broker.forwardAndGetReply$(
-                    "Vehicle",
-                    "emi-gateway.graphql.mutation.VehicleUpdateVehicleGeneralInfo",
-                    { root, args, jwt: context.encodedToken },
-                    2000
-                  )
+                    context.broker.forwardAndGetReply$(
+                        "Vehicle",
+                        "emi-gateway.graphql.mutation.VehicleUpdateVehicleGeneralInfo", { root, args, jwt: context.encodedToken },
+                        2000
+                    )
                 ),
                 catchError(err => handleError$(err, "updateVehicleGeneralInfo")),
                 mergeMap(response => getResponseFromBackEnd$(response))
@@ -130,83 +123,75 @@ module.exports = {
         },
         VehicleUpdateVehicleState(root, args, context) {
             return RoleValidator.checkPermissions$(
-              context.authToken.realm_access.roles,
-              "Vehicle",
-              "VehicleUpdateVehicleState",
-              PERMISSION_DENIED_ERROR_CODE,
-              "Permission denied",
-              ["PLATFORM-ADMIN"]
+                context.authToken.realm_access.roles,
+                "Vehicle",
+                "VehicleUpdateVehicleState",
+                PERMISSION_DENIED_ERROR_CODE,
+                "Permission denied", ["PLATFORM-ADMIN"]
             ).pipe(
                 mergeMap(() =>
-                  context.broker.forwardAndGetReply$(
-                    "Vehicle",
-                    "emi-gateway.graphql.mutation.VehicleUpdateVehicleState",
-                    { root, args, jwt: context.encodedToken },
-                    2000
-                  )
+                    context.broker.forwardAndGetReply$(
+                        "Vehicle",
+                        "emi-gateway.graphql.mutation.VehicleUpdateVehicleState", { root, args, jwt: context.encodedToken },
+                        2000
+                    )
                 ),
                 catchError(err => handleError$(err, "updateVehicleState")),
                 mergeMap(response => getResponseFromBackEnd$(response))
             ).toPromise();
         },
-        VehicleAddBlocking(root, args, context) {
+        VehicleAddVehicleBlocking(root, args, context) {
             return RoleValidator.checkPermissions$(
-              context.authToken.realm_access.roles,
-              "Vehicle",
-              "VehicleAddBlocking",
-              PERMISSION_DENIED_ERROR_CODE,
-              "Permission denied",
-              ["PLATFORM-ADMIN"]
+                context.authToken.realm_access.roles,
+                "Vehicle",
+                "VehicleAddVehicleBlocking",
+                PERMISSION_DENIED_ERROR_CODE,
+                "Permission denied", ["PLATFORM-ADMIN"]
             ).pipe(
                 mergeMap(() =>
-                  context.broker.forwardAndGetReply$(
-                    "Vehicle",
-                    "emi-gateway.graphql.mutation.VehicleAddBlocking",
-                    { root, args, jwt: context.encodedToken },
-                    2000
-                  )
+                    context.broker.forwardAndGetReply$(
+                        "Vehicle",
+                        "emi-gateway.graphql.mutation.VehicleAddVehicleBlocking", { root, args, jwt: context.encodedToken },
+                        2000
+                    )
                 ),
                 catchError(err => handleError$(err, "addBlocking")),
                 mergeMap(response => getResponseFromBackEnd$(response))
             ).toPromise();
         },
-        VehicleRemoveBlocking(root, args, context) {
+        VehicleRemoveVehicleBlocking(root, args, context) {
             return RoleValidator.checkPermissions$(
-              context.authToken.realm_access.roles,
-              "Vehicle",
-              "VehicleRemoveBlocking",
-              PERMISSION_DENIED_ERROR_CODE,
-              "Permission denied",
-              ["PLATFORM-ADMIN"]
+                context.authToken.realm_access.roles,
+                "Vehicle",
+                "VehicleRemoveVehicleBlocking",
+                PERMISSION_DENIED_ERROR_CODE,
+                "Permission denied", ["PLATFORM-ADMIN"]
             ).pipe(
                 mergeMap(() =>
-                  context.broker.forwardAndGetReply$(
-                    "Vehicle",
-                    "emi-gateway.graphql.mutation.VehicleRemoveBlocking",
-                    { root, args, jwt: context.encodedToken },
-                    2000
-                  )
+                    context.broker.forwardAndGetReply$(
+                        "Vehicle",
+                        "emi-gateway.graphql.mutation.VehicleRemoveVehicleBlocking", { root, args, jwt: context.encodedToken },
+                        2000
+                    )
                 ),
                 catchError(err => handleError$(err, "removeBlocking")),
                 mergeMap(response => getResponseFromBackEnd$(response))
             ).toPromise();
         },
-        VehicleUpdateFeatures(root, args, context) {
+        VehicleUpdateVehicleFeatures(root, args, context) {
             return RoleValidator.checkPermissions$(
-              context.authToken.realm_access.roles,
-              "Vehicle",
-              "VehicleUpdateFeatures",
-              PERMISSION_DENIED_ERROR_CODE,
-              "Permission denied",
-              ["PLATFORM-ADMIN"]
+                context.authToken.realm_access.roles,
+                "Vehicle",
+                "VehicleUpdateVehicleFeatures",
+                PERMISSION_DENIED_ERROR_CODE,
+                "Permission denied", ["PLATFORM-ADMIN"]
             ).pipe(
                 mergeMap(() =>
-                  context.broker.forwardAndGetReply$(
-                    "Vehicle",
-                    "emi-gateway.graphql.mutation.VehicleUpdateFeatures",
-                    { root, args, jwt: context.encodedToken },
-                    2000
-                  )
+                    context.broker.forwardAndGetReply$(
+                        "Vehicle",
+                        "emi-gateway.graphql.mutation.VehicleUpdateVehicleFeatures", { root, args, jwt: context.encodedToken },
+                        2000
+                    )
                 ),
                 catchError(err => handleError$(err, "updateFeatures")),
                 mergeMap(response => getResponseFromBackEnd$(response))
@@ -245,13 +230,12 @@ module.exports = {
 
 //// SUBSCRIPTIONS SOURCES ////
 
-const eventDescriptors = [
-    {
+const eventDescriptors = [{
         backendEventName: 'VehicleVehicleUpdatedSubscription',
         gqlSubscriptionName: 'VehicleVehicleUpdatedSubscription',
         dataExtractor: (evt) => evt.data, // OPTIONAL, only use if needed
-        onError: (error, descriptor) => console.log(`Error processing ${descriptor.backendEventName}`),// OPTIONAL, only use if needed
-        onEvent: (evt, descriptor) => console.log(`Event of type  ${descriptor.backendEventName} arraived`),// OPTIONAL, only use if needed
+        onError: (error, descriptor) => console.log(`Error processing ${descriptor.backendEventName}`), // OPTIONAL, only use if needed
+        onEvent: (evt, descriptor) => console.log(`Event of type  ${descriptor.backendEventName} arraived`), // OPTIONAL, only use if needed
     },
     {
         backendEventName: 'VehicleLocationUpdated',
@@ -287,10 +271,8 @@ eventDescriptors.forEach(descriptor => {
             },
 
             () =>
-                console.log(
-                    `${descriptor.gqlSubscriptionName} listener STOPPED`
-                )
+            console.log(
+                `${descriptor.gqlSubscriptionName} listener STOPPED`
+            )
         );
 });
-
-

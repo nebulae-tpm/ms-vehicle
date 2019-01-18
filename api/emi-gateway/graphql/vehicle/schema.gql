@@ -105,7 +105,7 @@ input VehicleVehicleInput {
   "Vehicle status"
   state: Boolean!
   "Vehicle features"
-  features: VehicleFeaturesInput!
+  features: VehicleFeaturesInput
   "Vehicle blocking"
   blockings: [String]
   "Business ID"
@@ -139,9 +139,9 @@ type Mutation {
   VehicleUpdateVehicleGeneralInfo(id:ID!, input: VehicleVehicleGeneralInfoInput!): CommandResponse
   "Update the Vehicle state"
   VehicleUpdateVehicleState(id: ID!, newState: Boolean!): CommandResponse
-  VehicleAddBlocking(id: ID!, blocking: String!): CommandResponse
-  VehicleRemoveBlocking(id: ID!, blocking: String!): CommandResponse
-  VehicleUpdateFeatures(id: ID!, features: VehicleFeaturesInput!): CommandResponse
+  VehicleAddVehicleBlocking(id: ID!, blocking: String!): CommandResponse
+  VehicleRemoveVehicleBlocking(id: ID!, blocking: String!): CommandResponse
+  VehicleUpdateVehicleFeatures(id: ID!, features: VehicleFeaturesInput!): CommandResponse
 }
 
 type Subscription {

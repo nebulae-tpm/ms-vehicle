@@ -27,8 +27,9 @@
                 <div class="nav mt-20" fxLayout="column">
                     <form fxLayout="column" fxLayoutAlign="start" fxFlex="100" name="form" [formGroup]="filterForm">
                         <div fxLayout="column" fxLayoutAlign="space-between center" fxFlex="100">
+
                             <mat-form-field>
-                                <input matInput placeholder="{{'VEHICLE.NAME' | translate}}" formControlName="name" id="name" maxlength="20" />
+                                <input matInput placeholder="{{'VEHICLE.LICENSE_PLATE' | translate}}" formControlName="licensePlate" id="licensePlate" maxlength="20" />
                             </mat-form-field>
 
                             <mat-form-field>
@@ -116,8 +117,8 @@
                         <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-xs>{{ "VEHICLE.BLOCKINGS" | translate }}
                         </mat-header-cell>
                         <mat-cell *cdkCellDef="let vehicle" fxHide fxShow.gt-xs>
-                            <mat-icon *ngIf="vehicle.blockings.length == 0" class="active-icon mat-green-600-bg s-16">check</mat-icon>
-                            <mat-icon *ngIf="vehicle.blockings.length > 0" class="active-icon mat-red-500-bg s-16">close</mat-icon>
+                            <mat-icon *ngIf="!vehicle.blockings || vehicle.blockings.length === 0" class="active-icon mat-green-600-bg s-16">check</mat-icon>
+                            <mat-icon *ngIf="vehicle.blockings" class="active-icon mat-red-500-bg s-16">close</mat-icon>
                         </mat-cell>
                     </ng-container>
 
