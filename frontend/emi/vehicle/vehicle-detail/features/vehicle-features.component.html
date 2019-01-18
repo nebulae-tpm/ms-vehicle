@@ -1,46 +1,48 @@
 <div class="tab-content p-24" fxLayout="column" fusePerfectScrollbar>
 
-    <form name="vehicleFeaturesForm" [formGroup]="vehicleFeaturesForm" class="w-100-p"
-      fxLayout="column" class="mat-white-bg p-24 mr-24 mb-24">
+    <form name="vehicleFeaturesForm" [formGroup]="vehicleFeaturesForm" class="w-100-p" fxLayout="row wrap" class="mat-white-bg p-24 mr-24 mb-24">
 
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between  start">
-        <div class="h2">{{'VEHICLE.DETAILS.GENERAL_INFO' | translate}}</div>
-        <form *ngIf="vehicleStateForm" name="vehicleStateForm" [formGroup]="vehicleStateForm" fxLayout="column">
-          <mat-slide-toggle formControlName="state" color="accent" (change)="onVehicleStateChange($event)">
-            <label *ngIf="vehicleStateForm.controls['state'].value">{{'VEHICLE.DETAILS.ENABLED' | translate}}</label>
-            <label *ngIf="!vehicleStateForm.controls['state'].value">{{'VEHICLE.DETAILS.DISABLED' | translate}}</label>
-          </mat-slide-toggle>
-        </form>
-      </div>
+        <mat-form-field class="w-100-p">
+            <input matInput name="fuel" formControlName="fuel" maxlength="15" placeholder="{{'VEHICLE.DETAILS.FUEL' | translate}}">
+            <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['fuel'])">
+                {{'VEHICLE.FUEL_REQUIRED' | translate}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-100-p">
+            <input matInput name="capacity" formControlName="capacity" maxlength="15" placeholder="{{'VEHICLE.DETAILS.CAPACITY' | translate}}">
+            <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['capacity'])">
+                {{'VEHICLE.CAPACITY_REQUIRED' | translate}}
+            </mat-error>
+        </mat-form-field>
 
-      <mat-form-field class="w-100-p">
-        <input matInput name="name" formControlName="name" maxlength="15" placeholder="{{'VEHICLE.DETAILS.NAME' | translate}}">
-        <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['name'])">
-          {{'VEHICLE.NAME_REQUIRED' | translate}}
-        </mat-error>
-      </mat-form-field>
+        <div class="profile-box info-box work" fxLayout="column">
 
-      <mat-form-field class="w-100-p" fxLAyout="column">
-        <textarea matInput matTextareaAutosize name="description" formControlName="description"
-          maxlength="350" placeholder="{{'VEHICLE.DETAILS.DESCRIPTION' | translate}}"
-          matAutosizeMinRows="1" matAutosizeMaxRows="5" >
-        </textarea>
-        <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['description'])">
-          {{'VEHICLE.DESCRIPTION_REQUIRED' | translate}}
-        </mat-error>
-      </mat-form-field>
+            <header class="mat-accent-bg">
+                <div class="title">{{'PROFILE.ROLES' | translate}}</div>
+            </header>
+
+            <div class="content">
+                <!-- <div class="info-line" *ngFor="let userRole of userRoles"> -->
+                <mat-chip-list matPrefix fxLayout="row" fxLayoutAlign="space-evenly center">
+                    <mat-chip *ngFor="let block of blockings" removable="true" style="margin-top: 5px">
+                        {{block}}
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+                <!-- </div> -->
+            </div>
+        </div>
 
 
-      <div class="mt-16">
-        <button mat-raised-button *ngIf="pageType === 'new'" (click)="createVehicle()"
-          [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
+
+        <div class="mt-16">
+            <button mat-raised-button *ngIf="pageType === 'new'" (click)="createVehicle()" [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
           {{'VEHICLE.CREATE' | translate}}
         </button>
-        <button mat-raised-button *ngIf="pageType === 'edit'" (click)="updateVehicleFeatures()"
-          [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
+            <button mat-raised-button *ngIf="pageType === 'edit'" (click)="updateVehicleFeatures()" [disabled]="vehicleFeaturesForm.invalid || vehicleFeaturesForm.pristine">
           {{'VEHICLE.UPDATE' | translate}}
         </button>
-      </div>
+        </div>
 
     </form>
 

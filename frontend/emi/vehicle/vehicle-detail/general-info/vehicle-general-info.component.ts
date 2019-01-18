@@ -122,7 +122,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
       }),
       filter(selectedBusiness => selectedBusiness != null && selectedBusiness.id != null),
       mergeMap(selectedBusiness => {
-        return this.showConfirmationDialog$('VEHICLE.CREATE_MESSAGE', 'VEHICLE.CREATE_TITLE')
+        return this.showConfirmationDialog$('VEHICLE.CREATE_MESSAGE', 'VEHICLE.CREATE_TITLE', {})
         .pipe(
           mergeMap(ok => {
             this.vehicle = {
@@ -148,7 +148,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
   }
 
   updateVehicleGeneralInfo() {
-    this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
+    this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE', {})
       .pipe(
         mergeMap(ok => {
           const generalInfoinput = {
@@ -172,8 +172,8 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
 
   }
 
-  onVehicleStateChange() {
-    this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
+  onVehicleStateChange(checker: any) {
+    this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE', {checker})
       .pipe(
         mergeMap(ok => this.VehicleDetailservice.updateVehicleVehicleState$(this.vehicle._id, this.vehicleStateForm.getRawValue().state)),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
@@ -188,7 +188,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
         });
   }
 
-  showConfirmationDialog$(dialogMessage, dialogTitle) {
+  showConfirmationDialog$(dialogMessage, dialogTitle, other) {
     return this.dialog.open(DialogComponent, {
       data: {
         dialogMessage,
@@ -197,7 +197,17 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
     })
       .afterClosed()
       .pipe(
+        tap(userResponse => {
+          console.log('RESPUESTA EL CIERRE DEL DIALOG', userResponse, 'ESTADO DEL FORM', this.vehicleStateForm.controls['state'].value);
+          if (!userResponse && other.checker ){
+            console.log('ESTADO DEL CHECKER ==> ', other);
+            console.log('REVERTIR EL ESTADO DEL CHECKER..');
+
+          }
+
+        } ),
         filter(okButton => okButton),
+        tap(() => console.log('PASA POR EL FILTRO'))
       );
   }
 

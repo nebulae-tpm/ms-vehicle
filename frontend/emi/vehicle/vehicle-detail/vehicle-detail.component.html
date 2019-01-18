@@ -7,60 +7,57 @@
     <!-- CENTER -->
     <div class="center">
 
-      <!-- HEADER -->
-      <div class="header white-fg" fxLayout="row" fxLayoutAlign="space-between center">
+        <!-- HEADER -->
+        <div class="header white-fg" fxLayout="row" fxLayoutAlign="space-between center">
 
-        <!-- APP TITLE -->
-        <div fxLayout="row" fxLayoutAlign="start center">
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
 
-          <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="['../']">
-            <mat-icon>arrow_back</mat-icon>
-          </button>
+                <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="['../']">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-          <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom>
+                <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom>
 
-            <div class="h2" *ngIf="vehicle && vehicle._id">
-              {{vehicle.name}}
+                    <div class="h2" *ngIf="vehicle && vehicle._id">
+                        {{vehicle.name}}
+                    </div>
+
+                    <div class="h2" *ngIf="!vehicle || (vehicle && !vehicle._id)">
+                        {{'VEHICLE.DETAIL_HEADER_NEW' | translate}}
+                    </div>
+
+                    <div class="subtitle secondary-text">
+                        <span>{{'VEHICLE.DETAIL_HEADER_NAME' | translate}}</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="h2" *ngIf="!vehicle || (vehicle && !vehicle._id)">
-              {{'VEHICLE.DETAIL_HEADER_NEW' | translate}}
-            </div>
-
-            <div class="subtitle secondary-text">
-              <span>{{'VEHICLE.DETAIL_HEADER_NAME' | translate}}</span>
-            </div>
-          </div>
+            <!-- / APP TITLE -->
         </div>
-        <!-- / APP TITLE -->
-      </div>
-      <!-- / HEADER -->
+        <!-- / HEADER -->
 
-      <!-- CONTENT CARD -->
-      <div class="content-card mat-white-bg">
-        <mat-tab-group  >
+        <!-- CONTENT CARD -->
+        <div class="content-card mat-white-bg">
+            <mat-tab-group>
 
-          <mat-tab label="{{'VEHICLE.DETAILS.TABS.GENERAL_INFO' | translate}}">
-            <vehicle-general-info [pageType]="pageType" [vehicle]="vehicle" *ngIf="pageType">
-            </vehicle-general-info>
-          </mat-tab>
-          <mat-tab label="{{'VEHICLE.DETAILS.TABS.FEATURES' | translate}}">
-              <vehicle-features></vehicle-features>
-          </mat-tab>
-          <mat-tab label="{{'VEHICLE.DETAILS.TABS.LOCATION' | translate}}">
-              <vehicle-location></vehicle-location>
-          </mat-tab>
-          <mat-tab flex layout="column" label="A" style="background:green">
-              <div style="min-height: 100% !important;" flex style="background:blue" layout-fill>A</div>
-          </mat-tab>
+                <mat-tab label="{{'VEHICLE.DETAILS.TABS.GENERAL_INFO' | translate}}">
+                    <vehicle-general-info [pageType]="pageType" [vehicle]="vehicle" *ngIf="pageType">
+                    </vehicle-general-info>
+                </mat-tab>
+                <mat-tab label="{{'VEHICLE.DETAILS.TABS.FEATURES' | translate}}">
+                    <vehicle-features></vehicle-features>
+                </mat-tab>
+                <mat-tab label="{{'VEHICLE.DETAILS.TABS.LOCATION' | translate}}">
+                    <vehicle-location></vehicle-location>
+                </mat-tab>
 
-        </mat-tab-group>
+            </mat-tab-group>
 
-        <!-- / CONTENT -->
+            <!-- / CONTENT -->
 
-      </div>
-      <!-- / CONTENT CARD -->
+        </div>
+        <!-- / CONTENT CARD -->
 
     </div>
     <!-- / CENTER -->
-  </div>
+</div>

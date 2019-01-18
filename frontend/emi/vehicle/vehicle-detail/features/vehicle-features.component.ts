@@ -72,7 +72,9 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   @Input('vehicle') vehicle: any;
 
   vehicleFeaturesForm: any;
-  vehicleStateForm: any;
+  blockings = `Nikola Tesla Las patentes de Tesla y su trabajo teórico ayudaron a forjar las bases de los sistemas modernos para el uso de la energía eléctrica por corriente
+     alterna (CA), incluyendo el sistema polifásico de distribución eléctrica y el motor de corriente alterna, que contribuyeron al surgimiento de la
+     Segunda Revolución Industrial.`.split(' ');
 
   constructor(
     private translationLoader: FuseTranslationLoaderService,
@@ -91,12 +93,8 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.vehicleFeaturesForm = new FormGroup({
-      name: new FormControl(this.vehicle ? (this.vehicle.features || {}).name : ''),
-      description: new FormControl(this.vehicle ? (this.vehicle.features || {}).description : '')
-    });
-
-    this.vehicleStateForm = new FormGroup({
-      state: new FormControl(this.vehicle ? this.vehicle.state : true)
+      fuel: new FormControl(this.vehicle ? (this.vehicle.features || {}).fuel : ''),
+      capacity: new FormControl(this.vehicle ? (this.vehicle.features || {}).capacity : '')
     });
   }
 
@@ -115,7 +113,6 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
           mergeMap(ok => {
             this.vehicle = {
               features: this.vehicleFeaturesForm.getRawValue(),
-              state: this.vehicleStateForm.getRawValue().state,
               businessId: selectedBusiness.id
             };
             return this.VehicleDetailservice.createVehicleVehicle$(this.vehicle);
@@ -138,13 +135,12 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   updateVehicleFeatures() {
     this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
       .pipe(
-        mergeMap(ok => {
-          const featuresinput = {
-            name: this.vehicleFeaturesForm.getRawValue().name,
-            description: this.vehicleFeaturesForm.getRawValue().description
-          };
-          return this.VehicleDetailservice.updateVehicleVehicleFeatures$(this.vehicle._id, featuresinput);
-        }),
+        mergeMap(ok =>
+          this.VehicleDetailservice.updateVehicleVehicleFeatures$(this.vehicle._id, {
+            fuel: this.vehicleFeaturesForm.getRawValue().fuel,
+            capacity: this.vehicleFeaturesForm.getRawValue().capacity
+          })
+        ),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
         filter((resp: any) => !resp.errors || resp.errors.length === 0),
         takeUntil(this.ngUnsubscribe)
@@ -160,23 +156,6 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
 
   }
 
-  onVehicleStateChange() {
-    this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
-      .pipe(
-        mergeMap(ok => {
-          return this.VehicleDetailservice.updateVehicleVehicleState$(this.vehicle._id, this.vehicleStateForm.getRawValue().state);
-        }),
-        mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
-        filter((resp: any) => !resp.errors || resp.errors.length === 0),
-        takeUntil(this.ngUnsubscribe)
-      ).subscribe(result => {
-        this.showSnackBar('VEHICLE.WAIT_OPERATION');
-      },
-        error => {
-          this.showSnackBar('VEHICLE.ERROR_OPERATION');
-          console.log('Error ==> ', error);
-        });
-  }
 
   showConfirmationDialog$(dialogMessage, dialogTitle) {
     return this.dialog
@@ -266,6 +245,11 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  removeBlock(block){
+    console.log('REMOVING ...', block);
+    this.blockings = this.blockings.filter(e => e !== block);
   }
 
 }
