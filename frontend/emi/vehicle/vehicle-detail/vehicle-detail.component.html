@@ -38,8 +38,7 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card mat-white-bg">
-            <mat-tab-group>
-
+            <mat-tab-group dynamicHeight >
                 <mat-tab label="{{'VEHICLE.DETAILS.TABS.GENERAL_INFO' | translate}}">
                     <vehicle-general-info [pageType]="pageType" [vehicle]="vehicle" *ngIf="pageType">
                     </vehicle-general-info>
@@ -49,10 +48,16 @@
                   </vehicle-blocks>
               </mat-tab>
                 <mat-tab *ngIf="pageType && vehicle" label="{{'VEHICLE.DETAILS.TABS.FEATURES' | translate}}">
-                    <vehicle-features [pageType]="pageType" [vehicle]="vehicle" ></vehicle-features>
+                    <vehicle-features [pageType]="pageType" [vehicle]="vehicle">
+
+                    </vehicle-features>
                 </mat-tab>
                 <mat-tab *ngIf="pageType && vehicle" label="{{'VEHICLE.DETAILS.TABS.LOCATION' | translate}}">
-                    <vehicle-location></vehicle-location>
+                    <vehicle-location ngClass="small-map-content large-map-content" class="mat-elevation-z4"
+                    [ngClass.gt-xs]="{'small-map-content': false, 'large-map-content': true}"
+                    [ngClass.lt-sm]="{'small-map-content': true, 'large-map-content': false}" >
+
+                    </vehicle-location>
                 </mat-tab>
 
             </mat-tab-group>

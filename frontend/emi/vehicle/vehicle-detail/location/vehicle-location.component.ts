@@ -67,18 +67,18 @@ export class VehicleLocationComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.initMap(); // initialize the map element
-    this.isPlatformAdmin = this.keycloakService.getUserRoles(true).includes(this.PLATFORM_ADMIN);
-    this.initObservables();
+  //   this.isPlatformAdmin = this.keycloakService.getUserRoles(true).includes(this.PLATFORM_ADMIN);
+  //   this.initObservables();
 
-  concat(
-    // update the [isPLATFORM-ADMIN] variable
-    of(this.keycloakService.getUserRoles(true).includes(this.PLATFORM_ADMIN))
-    .pipe(
-      tap((isPlatformAdmin) => this.isPlatformAdmin = isPlatformAdmin )
-    )
+  // concat(
+  //   // update the [isPLATFORM-ADMIN] variable
+  //   of(this.keycloakService.getUserRoles(true).includes(this.PLATFORM_ADMIN))
+  //   .pipe(
+  //     tap((isPlatformAdmin) => this.isPlatformAdmin = isPlatformAdmin )
+  //   )
 
-  )
-  .subscribe(r => {}, err => {}, () => {});
+  // )
+  // .subscribe(r => {}, err => {}, () => {});
   }
 
    /**
@@ -169,13 +169,11 @@ export class VehicleLocationComponent implements OnInit, OnDestroy {
   }
 
   initMap() {
-    const mapOptions = {
+    this.map = new MapRef(this.gmapElement.nativeElement, {
       center: new google.maps.LatLng(6.1701312, -75.6058417),
       zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    this.map = new MapRef(this.gmapElement.nativeElement, mapOptions);
+    });
   }
 
    /**
