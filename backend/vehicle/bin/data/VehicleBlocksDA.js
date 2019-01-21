@@ -38,6 +38,11 @@ class VehicleBlocksDA {
     return defer(() => collection.deleteMany({vehicleId: vehicleId, key: blockKey}))
   }
 
+  static removeExpiredBlocks$(timestamp){
+    const collection = mongoDB.db.collection(CollectionName);
+    return defer(() => collection.deleteMany( { endTime: { $$lte: timestamp } }))
+  }
+
 }
 /**
  * @returns {VehicleDA}

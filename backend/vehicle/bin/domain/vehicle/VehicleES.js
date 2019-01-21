@@ -71,6 +71,11 @@ class VehicleES {
         )
     }
 
+    handleCleanExpiredBlocks$(evt){
+        console.log('############### handleCleanExpiredBlocks$', evt);
+        return VehicleBlocksDA.removeExpiredBlocks$(evt.timestamp);
+    }
+
 }
 
 

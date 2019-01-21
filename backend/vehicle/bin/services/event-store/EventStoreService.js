@@ -140,6 +140,10 @@ class EventStoreService {
       VehicleBlockRemoved: {
         fn: VehicleES.handleVehicleBlockRemoved$,
         obj: VehicleES
+      },
+      CleanExpiredBlocks: {
+        fn: VehicleES.handleCleanExpiredBlocks$,
+        obj: VehicleES
       }
 
     };
@@ -170,6 +174,11 @@ class EventStoreService {
         aggregateType: "Vehicle",
         eventType: "VehicleBlockRemoved"
       },
+      {
+        aggregateType: "Cronjob",
+        eventType: "CleanExpiredBlocks"
+      },
+
     ]
   }
 }
