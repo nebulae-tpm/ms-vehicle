@@ -44,6 +44,10 @@
                     <vehicle-general-info [pageType]="pageType" [vehicle]="vehicle" *ngIf="pageType">
                     </vehicle-general-info>
                 </mat-tab>
+                <mat-tab label="{{'VEHICLE.DETAILS.TABS.BLOCKS' | translate}}">
+                  <vehicle-blocks [vehicle]="vehicle" *ngIf="pageType">
+                  </vehicle-blocks>
+              </mat-tab>
                 <mat-tab *ngIf="pageType && vehicle" label="{{'VEHICLE.DETAILS.TABS.FEATURES' | translate}}">
                     <vehicle-features [pageType]="pageType" [vehicle]="vehicle" *ngIf="pageType"></vehicle-features>
                 </mat-tab>

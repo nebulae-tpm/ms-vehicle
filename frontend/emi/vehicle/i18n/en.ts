@@ -19,7 +19,8 @@ export const locale = {
         TABS: {
           GENERAL_INFO: 'General Info',
           FEATURES: 'Features',
-          LOCATION: 'Location'
+          LOCATION: 'Location',
+          BLOCKS: 'Blocks'
         },
         GENERAL_INFO: 'General Info',
         ENABLED: 'Enabled',
@@ -28,6 +29,25 @@ export const locale = {
         MODEL: 'Model',
         BRAND: 'Brand',
         LINE: 'Line'
+      },
+      BLOCKS: {
+        KEY: 'Block',
+        NOTES: 'Notes',
+        START_TIME: 'Start Time',
+        END_TIME: 'End Time',
+        USER: 'User'
+      },
+      FEATURES: {
+        FUEL: 'Fuel',
+        CAPACITY: 'Capacity',
+        OTHERS_TITLE: 'Others Features',
+        OTHERS: {
+          AC: 'Air Conditioning',
+          TRUNK: 'Trunk',
+          ROOF_RACK: 'Roof Rack',
+          PETS: 'Pets',
+          BIKE_RACK: 'Bike Rack'
+        }
       },
       ACTIVE: 'Active',
       LICENSE_PLATE: 'Plate',

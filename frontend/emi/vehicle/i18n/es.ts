@@ -19,7 +19,8 @@ export const locale = {
         TABS: {
           GENERAL_INFO: 'Información general',
           FEATURES: 'Caracteristicas',
-          LOCATION: 'Ubicación'
+          LOCATION: 'Ubicación',
+          BLOCKS: 'Bloqueos'
         },
         GENERAL_INFO: 'Información general',
         ENABLED: 'Activo',
@@ -27,7 +28,26 @@ export const locale = {
         LICENSE_PLATE: 'Placa',
         MODEL: 'Modelo',
         BRAND: 'Marca',
-        LINE: 'Línea' 
+        LINE: 'Línea'
+      },
+      BLOCKS: {
+        KEY: 'Bloqueo',
+        NOTES: 'Notas',
+        START_TIME: 'Inicia',
+        END_TIME: 'Termina',
+        USER: 'Usuario'
+      },
+      FEATURES: {
+        FUEL: 'Combustible',
+        CAPACITY: 'Capacidad',
+        OTHERS_TITLE: 'Otras características',
+        OTHERS: {
+          AC: 'Aire acondicionado',
+          TRUNK: 'Baúl',
+          ROOF_RACK: 'Parrilla de techo',
+          PETS: 'Permite mascotas',
+          BIKE_RACK: 'Porta bicicletas'
+        }
       },
       ACTIVE: 'Activo',
       LICENSE_PLATE: 'Placa',

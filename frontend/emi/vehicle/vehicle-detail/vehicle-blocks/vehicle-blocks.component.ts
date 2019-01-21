@@ -73,6 +73,25 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
   vehicleblocksForm: any;
   blockings = `Nikola Tesla Industrial.`.split(' ');
 
+  /////// TABLE /////////
+
+  dataSource = new MatTableDataSource();
+
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
+  tableSize: number;
+  tablePage = 0;
+  tableCount = 10;
+
+  // Columns to show in the table
+  displayedColumns = [
+    'key',
+    'notes',
+    'startTime',
+    'endTime',
+    'user'
+  ];
+
   constructor(
     private translationLoader: FuseTranslationLoaderService,
     private translate: TranslateService,
@@ -89,6 +108,14 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.dataSource.data = [{
+      key: 'PICO_Y_PLACA',
+      notes: 'pico y placa ambiental',
+      startTime: 0,
+      endTime: 123456789,
+      user: 'juan.santa'
+    }];
+
     this.vehicleblocksForm = new FormGroup({
       fuel: new FormControl(this.vehicle ? (this.vehicle.blocks || {}).fuel : ''),
       capacity: new FormControl(this.vehicle ? (this.vehicle.blocks || {}).capacity : '')
@@ -223,6 +250,10 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
   removeBlock(block){
     console.log('REMOVING ...', block);
     this.blockings = this.blockings.filter(e => e !== block);
+  }
+
+  selectBlockRow(block){
+    console.log(block);
   }
 
 }
