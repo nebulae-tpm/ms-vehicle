@@ -1,9 +1,10 @@
 'use strict'
 
-const {} = require("rxjs");
+const { of } = require("rxjs");
 const { tap, mergeMap, catchError, map, mapTo } = require('rxjs/operators');
 const broker = require("../../tools/broker/BrokerFactory")();
 const VehicleDA = require('../../data/VehicleDA');
+const VehicleBlocksDA = require('../../data/VehicleBlocksDA');
 const MATERIALIZED_VIEW_TOPIC = "emi-gateway-materialized-view-updates";
 
 /**
@@ -58,6 +59,16 @@ class VehicleES {
             mergeMap(result => broker.send$(MATERIALIZED_VIEW_TOPIC, `VehicleVehicleUpdatedSubscription`, result))
         )
 
+    }
+
+    handleVehicleBlockRemoved$(evt){
+        console.log('############### handleVehicleBlockRemoved', evt);
+        return of(evt)
+        .pipe(
+            map(() => ({vehicleId: evt.aid, blockKey: evt.data.blockKey }) ),
+            mergeMap(args => VehicleBlocksDA.removeBlockFromDevice$(args) ),
+            tap(r => console.log(r.result))
+        )
     }
 
 }

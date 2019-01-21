@@ -35,7 +35,8 @@ export const locale = {
         NOTES: 'Notas',
         START_TIME: 'Inicia',
         END_TIME: 'Termina',
-        USER: 'Usuario'
+        USER: 'Usuario',
+        ACTIONS: 'Acciones'
       },
       FEATURES: {
         FUEL: 'Combustible',

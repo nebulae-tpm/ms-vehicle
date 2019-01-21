@@ -71,7 +71,6 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
   @Input('vehicle') vehicle: any;
 
   vehicleblocksForm: any;
-  blockings = `Nikola Tesla Industrial.`.split(' ');
 
   /////// TABLE /////////
 
@@ -89,7 +88,8 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
     'notes',
     'startTime',
     'endTime',
-    'user'
+    'user',
+    'actions'
   ];
 
   constructor(
@@ -108,21 +108,12 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.VehicleDetailservice.getVehicleVehicleBlocks$('sad')
+    this.VehicleDetailservice.getVehicleVehicleBlocks$(this.vehicle._id)
     .pipe(
       map(r => JSON.parse(JSON.stringify(r.data.VehicleVehicleBlocks))),
       tap((R) => console.log('LA RESPUESTA ES ...', R)),
       tap(blocks =>  this.dataSource.data = blocks)
     ).subscribe(() => {}, err => console.log(err), () => console.log('COMPLETADO'));
-
-
-    this.dataSource.data = [{
-      key: 'PICO_Y_PLACA',
-      notes: 'pico y placa ambiental',
-      startTime: 0,
-      endTime: 123456789,
-      user: 'juan.santa'
-    }];
 
     this.vehicleblocksForm = new FormGroup({
       fuel: new FormControl(this.vehicle ? (this.vehicle.blocks || {}).fuel : ''),
@@ -225,11 +216,15 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
 
   removeBlock(block){
     console.log('REMOVING ...', block);
-    this.blockings = this.blockings.filter(e => e !== block);
-  }
+    this.VehicleDetailservice.removeVehicleBlock$(this.vehicle._id, block.key)
+    .pipe(
+      tap(r => console.log('RESULTADO DE LA MUTACION', r)),
+      tap(() => {
+        this.dataSource.data = this.dataSource.data.filter((e: any) => e.key !== block.key);
+      })
+    )
+    .subscribe(() => {}, err => console.log(err), () => console.log('TERMINADO'));
 
-  selectBlockRow(block){
-    console.log(block);
   }
 
   insertBlock(){

@@ -104,6 +104,16 @@ export const VehicleUpdateVehicleGeneralInfo = gql `
   }
 `;
 
+export const removeVehicleBlocking = gql `
+  mutation VehicleRemoveVehicleBlocking($id: ID!, $blockKey: String!){
+    VehicleRemoveVehicleBlocking(id: $id, blockKey: $blockKey){
+      code
+      message
+    }
+  }
+`;
+
+
 export const VehicleUpdateVehicleFeatures = gql `
   mutation VehicleUpdateVehicleFeatures($id: ID!, $input: VehicleFeaturesInput!){
     VehicleUpdateVehicleFeatures(id: $id, input: $input){

@@ -151,7 +151,7 @@ type Mutation {
   "Update the Vehicle state"
   VehicleUpdateVehicleState(id: ID!, newState: Boolean!): CommandResponse
   VehicleAddVehicleBlocking(id: ID!, blocking: String!): CommandResponse
-  VehicleRemoveVehicleBlocking(id: ID!, blocking: String!): CommandResponse
+  VehicleRemoveVehicleBlocking(id: ID!, blockKey: String!): CommandResponse
   VehicleUpdateVehicleFeatures(id: ID!, input: VehicleFeaturesInput!): CommandResponse
 }
 

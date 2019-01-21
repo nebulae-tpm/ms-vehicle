@@ -9,7 +9,8 @@ import {
   VehicleVehicle,
   VehicleVehicleUpdatedSubscription,
   VehicleUpdateVehicleFeatures,
-  VehicleVehicleBlocks
+  VehicleVehicleBlocks,
+  removeVehicleBlocking
 } from '../gql/vehicle.js';
 
 @Injectable()
@@ -114,6 +115,19 @@ export class VehicleDetailService {
         errorPolicy: 'all'
       });
   }
+
+  removeVehicleBlock$(id: String, blockKey: string) {
+    return this.gateway.apollo
+      .mutate<any>({
+        mutation: removeVehicleBlocking,
+        variables: {
+          id: id,
+          blockKey: blockKey
+        },
+        errorPolicy: 'all'
+      });
+  }
+
 
   getVehicleVehicle$(entityId: string) {
     return this.gateway.apollo.query<any>({

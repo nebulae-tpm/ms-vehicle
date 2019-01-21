@@ -136,6 +136,10 @@ class EventStoreService {
       VehicleFeaturesUpdated: {
         fn: VehicleES.handleVehicleFeaturesUpdated$,
         obj: VehicleES
+      },
+      VehicleBlockRemoved: {
+        fn: VehicleES.handleVehicleBlockRemoved$,
+        obj: VehicleES
       }
 
     };
@@ -161,6 +165,10 @@ class EventStoreService {
       {
         aggregateType: "Vehicle",
         eventType: "VehicleFeaturesUpdated"
+      },
+      {
+        aggregateType: "Vehicle",
+        eventType: "VehicleBlockRemoved"
       },
     ]
   }

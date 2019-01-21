@@ -5,11 +5,12 @@ const { of, interval } = require("rxjs");
 const Event = require("@nebulae/event-store").Event;
 const eventSourcing = require("../../tools/EventSourcing")();
 const VehicleDA = require("../../data/VehicleDA");
+const VehicleBlocksDA = require('../../data/VehicleBlocksDA')
 const broker = require("../../tools/broker/BrokerFactory")();
 const MATERIALIZED_VIEW_TOPIC = "materialized-view-updates";
 const GraphqlResponseTools = require('../../tools/GraphqlResponseTools');
 const RoleValidator = require("../../tools/RoleValidator");
-const { take, mergeMap, catchError, map, toArray } = require('rxjs/operators');
+const { take, mergeMap, catchError, map, toArray, tap } = require('rxjs/operators');
 const {
   CustomError,
   DefaultError,
@@ -248,6 +249,7 @@ class VehicleCQRS {
   }
 
   getVehicleBlocks$({ root, args, jwt }, authToken) { 
+    console.log(args);
 
     return RoleValidator.checkPermissions$(
       authToken.realm_access.roles,
@@ -256,7 +258,39 @@ class VehicleCQRS {
       PERMISSION_DENIED,
       ["PLATFORM-ADMIN"]
     ).pipe(
-      map(() => []),
+      // map(() => [{
+      //   key: 'PICO_Y_PLACA',
+      //   notes: 'PYP Ambiental',
+      //   startTime: 0,
+      //   endTime: 123456789,
+      //   user: 'juan.ospina'
+      // }]),
+      mergeMap(() => VehicleBlocksDA.findBlocksByVehicle$(args.id)),
+      mergeMap(r => GraphqlResponseTools.buildSuccessResponse$(r)),
+      catchError(err => GraphqlResponseTools.handleError$(err))
+    );
+
+  }
+
+  removeVehicleBlock$({ root, args, jwt }, authToken) { 
+    return RoleValidator.checkPermissions$(
+      authToken.realm_access.roles,
+      "vehicleBlocks",
+      "getVehicleBlocks$",
+      PERMISSION_DENIED,
+      ["PLATFORM-ADMIN"]
+    ).pipe(
+      mergeMap(() => eventSourcing.eventStore.emitEvent$(
+        new Event({
+          eventType: "VehicleBlockRemoved",
+          eventTypeVersion: 1,
+          aggregateType: "Vehicle",
+          aggregateId: args.id,
+          data: { blockKey: args.blockKey},
+          user: authToken.preferred_username
+        })
+      )),
+      map(() => ({ code: 200, message: `Vehicle with id: ${vehicleUpdate._id} has been updated` })),
       mergeMap(r => GraphqlResponseTools.buildSuccessResponse$(r)),
       catchError(err => GraphqlResponseTools.handleError$(err))
     );
