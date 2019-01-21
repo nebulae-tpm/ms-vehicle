@@ -108,6 +108,14 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.VehicleDetailservice.getVehicleVehicleBlocks$('sad')
+    .pipe(
+      map(r => JSON.parse(JSON.stringify(r.data.VehicleVehicleBlocks))),
+      tap((R) => console.log('LA RESPUESTA ES ...', R)),
+      tap(blocks =>  this.dataSource.data = blocks)
+    ).subscribe(() => {}, err => console.log(err), () => console.log('COMPLETADO'));
+
+
     this.dataSource.data = [{
       key: 'PICO_Y_PLACA',
       notes: 'pico y placa ambiental',
@@ -122,39 +130,7 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
     });
   }
 
-  createVehicle() {
-    this.toolbarService.onSelectedBusiness$
-    .pipe(
-      tap(selectedBusiness => {
-        if (!selectedBusiness){
-          this.showSnackBar('VEHICLE.SELECT_BUSINESS');
-        }
-      }),
-      filter(selectedBusiness => selectedBusiness != null && selectedBusiness.id != null),
-      mergeMap(selectedBusiness => {
-        return this.showConfirmationDialog$('VEHICLE.CREATE_MESSAGE', 'VEHICLE.CREATE_TITLE')
-        .pipe(
-          mergeMap(ok => {
-            this.vehicle = {
-              blocks: this.vehicleblocksForm.getRawValue(),
-              businessId: selectedBusiness.id
-            };
-            return this.VehicleDetailservice.createVehicleVehicle$(this.vehicle);
-          }),
-          mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
-          filter((resp: any) => !resp.errors || resp.errors.length === 0)
-        );
-      }),
-      takeUntil(this.ngUnsubscribe)
-    ).subscribe(result => {
-        this.showSnackBar('VEHICLE.WAIT_OPERATION');
-      },
-        error => {
-          this.showSnackBar('VEHICLE.ERROR_OPERATION');
-          console.log('Error ==> ', error);
-        }
-    );
-  }
+
 
 
   showConfirmationDialog$(dialogMessage, dialogTitle) {
@@ -254,6 +230,10 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
 
   selectBlockRow(block){
     console.log(block);
+  }
+
+  insertBlock(){
+    console.log('####### INSERTANDO UN BLOQUEO');
   }
 
 }

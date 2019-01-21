@@ -8,7 +8,8 @@ import {
   VehicleUpdateVehicleState,
   VehicleVehicle,
   VehicleVehicleUpdatedSubscription,
-  VehicleUpdateVehicleFeatures
+  VehicleUpdateVehicleFeatures,
+  VehicleVehicleBlocks
 } from '../gql/vehicle.js';
 
 @Injectable()
@@ -88,7 +89,6 @@ export class VehicleDetailService {
   }
 
   updateVehicleVehicleFeatures$(id: String, vehicleFeatures: any) {
-    console.log('----------', id, vehicleFeatures);
     return this.updateOperation$(vehicleFeatures)
       .pipe(
         mergeMap(() => this.gateway.apollo
@@ -125,6 +125,19 @@ export class VehicleDetailService {
       errorPolicy: 'all'
     });
   }
+
+
+  getVehicleVehicleBlocks$(entityId: string) {
+    return this.gateway.apollo.query<any>({
+      query: VehicleVehicleBlocks,
+      variables: {
+        id: entityId
+      },
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all'
+    });
+  }
+
 
 /**
  * Event triggered when a business is created, updated or deleted.

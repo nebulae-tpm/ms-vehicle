@@ -47,6 +47,20 @@ export const VehicleVehicle = gql`
   }
 `;
 
+
+export const VehicleVehicleBlocks = gql`
+  query VehicleVehicleBlocks($id: String!) {
+    VehicleVehicleBlocks(id: $id) {
+      key
+      notes
+      vehicleId
+      startTime
+      endTime
+      user
+    }
+  }
+`;
+
 export const VehicleVehicles = gql`
   query VehicleVehicles($filterInput: FilterInput!, $paginationInput: PaginationInput!) {
     VehicleVehicles(filterInput: $filterInput, paginationInput: $paginationInput) {

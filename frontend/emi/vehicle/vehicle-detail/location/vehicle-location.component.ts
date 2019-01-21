@@ -108,7 +108,6 @@ export class VehicleLocationComponent implements OnInit, OnDestroy {
    * @param posList List with all Pos items to draw in the map
    */
   drawPosList$(posList: any[]) {
-    console.log('drawPosList$', posList.length);
     return posList && posList.length > 0
       ? from(posList)
         .pipe(
@@ -177,7 +176,6 @@ export class VehicleLocationComponent implements OnInit, OnDestroy {
     };
 
     this.map = new MapRef(this.gmapElement.nativeElement, mapOptions);
-    console.log('THIS.MAP ==> ', this.map);
   }
 
    /**
@@ -272,7 +270,6 @@ export class VehicleLocationComponent implements OnInit, OnDestroy {
             of(this.translateService.currentLang)
             .pipe(
               map(language => this.translateService.translations[language].MARKER.INFOWINDOW ),
-              tap(r => console.log('##########', r)),
               mergeMap( translations => this.updateMarkerInfoWindowContent$(translations) )
             )
 

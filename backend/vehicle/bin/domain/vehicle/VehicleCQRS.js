@@ -247,6 +247,22 @@ class VehicleCQRS {
     );
   }
 
+  getVehicleBlocks$({ root, args, jwt }, authToken) { 
+
+    return RoleValidator.checkPermissions$(
+      authToken.realm_access.roles,
+      "vehicleBlocks",
+      "getVehicleBlocks$",
+      PERMISSION_DENIED,
+      ["PLATFORM-ADMIN"]
+    ).pipe(
+      map(() => []),
+      mergeMap(r => GraphqlResponseTools.buildSuccessResponse$(r)),
+      catchError(err => GraphqlResponseTools.handleError$(err))
+    );
+
+  }
+
 
   //#endregion
 

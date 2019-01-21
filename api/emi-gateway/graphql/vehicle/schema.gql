@@ -123,6 +123,15 @@ input VehicleVehicleGeneralInfoInput {
   line: String!
 }
 
+type VehicleVehicleBlock {
+  key: String
+  notes: String
+  vehicleId: String
+  startTime: BigInt
+  endTime: BigInt
+  user: String
+}
+
 type Query {
   "Get Vehicles filtered "
   VehicleVehicles(filterInput: FilterInput!, paginationInput: PaginationInput!): [VehicleVehicleEntity]
@@ -130,6 +139,8 @@ type Query {
   VehicleVehiclesSize(filterInput: FilterInput!): Int!
   "Get Vehicle by its id"
   VehicleVehicle(id: String!): VehicleVehicleEntity
+  "get the Blocks of the related vehicle"
+  VehicleVehicleBlocks(id: String!): [VehicleVehicleBlock]
 }
 
 type Mutation {

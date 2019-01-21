@@ -77,7 +77,22 @@ module.exports = {
                     catchError(err => handleError$(err, "VehicleVehicle")),
                     mergeMap(response => getResponseFromBackEnd$(response))
                 ).toPromise();
-        }
+        },
+        VehicleVehicleBlocks(root, args, context) {
+            return RoleValidator.checkPermissions$(context.authToken.realm_access.roles, 'ms-' + 'Vehicle', 'VehicleVehicleBlocks', PERMISSION_DENIED_ERROR_CODE, 'Permission denied', ["PLATFORM-ADMIN"])
+                .pipe(
+                    mergeMap(() =>
+                        broker
+                        .forwardAndGetReply$(
+                            "Vehicle",
+                            "emi-gateway.graphql.query.vehicleVehicleBlocks", { root, args, jwt: context.encodedToken },
+                            2000
+                        )
+                    ),
+                    catchError(err => handleError$(err, "VehicleVehicle")),
+                    mergeMap(response => getResponseFromBackEnd$(response))
+                ).toPromise();
+        },
     },
 
     //// MUTATIONS ///////

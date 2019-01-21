@@ -304,7 +304,6 @@ export class VehicleListComponent implements OnInit, OnDestroy {
     return this.VehicleListservice.getvehicleSize$(filterInput)
     .pipe(
       mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),
-      tap(r => console.log('RESPONSE ==> ', r)),
       map(resp => resp.data.VehicleVehiclesSize)
     );
   }

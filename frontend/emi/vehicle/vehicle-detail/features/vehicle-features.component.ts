@@ -72,7 +72,7 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   @Input('pageType') pageType: string;
   @Input('vehicle') vehicle: any;
 
-  // otherFeatures = ['AC', 'TRUNK', 'ROOF_RACK', 'PETS', 'BIKE_RACK' ];
+  otherFeatures = ['AC', 'TRUNK', 'ROOF_RACK', 'PETS', 'BIKE_RACK' ];
 
   vehicleFeaturesForm: any;
   blockings = `Nikola Tesla Industrial.`.split(' ');
@@ -99,22 +99,37 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
       others : new FormArray([])
     });
 
+    if (this.vehicle.features){
+      this.vehicle.features.others.forEach(feature => {
+        (this.vehicleFeaturesForm.get('others') as FormArray).push(
+          new FormGroup({
+            name: new FormControl(feature.name),
+            active: new FormControl(feature.active)
+          })
+        );
+      });
+    }
 
-   this.vehicle.features.others.forEach(feature => {
-      (this.vehicleFeaturesForm.get('others') as FormArray).push(
-        new FormGroup({
-          name: new FormControl(feature.name),
-          active: new FormControl(feature.active)
-        })
-      );
+
+
+    this.otherFeatures.forEach(featureKey => {
+      const featureControl = (this.vehicleFeaturesForm.get('others') as FormArray).controls.find(control => control.get('name').value === featureKey);
+      if (!featureControl){
+        (this.vehicleFeaturesForm.get('others') as FormArray).push(
+          new FormGroup({
+            name: new FormControl(featureKey),
+            active: new FormControl(false)
+          })
+        );
+      }
     });
+
 
 
   }
 
 
   updateVehicleFeatures() {
-    console.log(this.vehicleFeaturesForm.getRawValue() );
     this.showConfirmationDialog$('VEHICLE.UPDATE_MESSAGE', 'VEHICLE.UPDATE_TITLE')
       .pipe(
         mergeMap(ok =>
@@ -224,16 +239,9 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
       });
   }
 
-
-
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  removeBlock(block){
-    console.log('REMOVING ...', block);
-    this.blockings = this.blockings.filter(e => e !== block);
   }
 
 }

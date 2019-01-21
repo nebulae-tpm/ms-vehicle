@@ -1,5 +1,16 @@
-<div class="content-card mat-white-bg">
-  <mat-table id="entity-table" class="blocks-table" #table [dataSource]="dataSource" fusePerfectScrollbar>
+<div class="content-card mat-white-bg" fxLayout="row wrap">
+  <!-- <div fxFlex="100" fxLayoutAlign="space-around center">
+
+    <button mat-fab fxHide fxShow.gt-xs (click)="insertBlock()">
+      <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+    </button>
+    <button mat-mini-fab fxShow fxHide.gt-xs (click)="insertBlock()">
+      <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+    </button>
+
+  </div> -->
+
+  <mat-table fxFlex="100" id="entity-table" class="blocks-table" #table [dataSource]="dataSource" fusePerfectScrollbar>
 
       <!-- BLOCK KEY COLUMN -->
       <ng-container cdkColumnDef="key">
@@ -63,6 +74,6 @@
                   }" [routerLink]="row._id" matRipple>
       </mat-row>
   </mat-table>
-  <mat-paginator #paginator [length]="tableSize" [pageIndex]="tablePage" [pageSize]="tableCount" [pageSizeOptions]="[5, 10, 25, 100]">
+  <mat-paginator fxFlex="100" #paginator [length]="tableSize" [pageIndex]="tablePage" [pageSize]="tableCount" [pageSizeOptions]="[5, 10, 25, 100]">
   </mat-paginator>
 </div>
