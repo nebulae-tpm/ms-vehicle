@@ -2,12 +2,16 @@
 
     <form name="vehicleFeaturesForm" [formGroup]="vehicleFeaturesForm" class="w-100-p" fxLayout="row wrap" class="mat-white-bg p-24 mr-24 mb-24">
 
-        <mat-form-field class="w-100-p">
-            <input matInput name="fuel" formControlName="fuel" maxlength="15" placeholder="{{'VEHICLE.FEATURES.FUEL' | translate}}">
+            <mat-form-field  class="w-100-p">
+            <mat-select  name="fuel" formControlName="fuel" placeholder="{{'VEHICLE.FEATURES.FUEL' | translate}}">
+              <mat-option  *ngFor="let fuelType of fuelTypes" [value]="fuelType">
+                {{ 'VEHICLE.FEATURES.FUEL_TYPES.'+ fuelType | translate }}
+              </mat-option>
+            </mat-select>
             <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['fuel'])">
                 {{'VEHICLE.FUEL_REQUIRED' | translate}}
             </mat-error>
-        </mat-form-field>
+          </mat-form-field>
         <mat-form-field class="w-100-p">
             <input type="number" matInput name="capacity" formControlName="capacity" maxlength="15" placeholder="{{'VEHICLE.FEATURES.CAPACITY' | translate}}">
             <mat-error *ngIf="vehicleFeaturesForm.hasError('required', ['capacity'])">

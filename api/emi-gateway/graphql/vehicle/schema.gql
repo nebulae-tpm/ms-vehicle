@@ -5,6 +5,13 @@ type CommandResponse {
   message: String
 }
 
+enum VehicleFueltType {
+  GASOLINE
+  GAS
+  GASOLINE_AND_GAS
+  DIESEL
+} 
+
 type VehicleVehicleEntity {
   "Vehicle ID"
   _id: ID!

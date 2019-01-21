@@ -42,6 +42,12 @@ export const locale = {
         FUEL: 'Combustible',
         CAPACITY: 'Capacidad',
         OTHERS_TITLE: 'Otras características',
+        FUEL_TYPES: {
+          GASOLINE: 'Gasonila',
+          GAS: 'Gas',
+          GASOLINE_AND_GAS: 'Gas y Gasolina',
+          DIESEL: 'Diesel'
+        },
         OTHERS: {
           AC: 'Aire acondicionado',
           TRUNK: 'Baúl',
