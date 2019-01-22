@@ -244,6 +244,7 @@ module.exports = {
 
 //// SUBSCRIPTIONS SOURCES ////
 
+
 const eventDescriptors = [{
         backendEventName: 'VehicleVehicleUpdatedSubscription',
         gqlSubscriptionName: 'VehicleVehicleUpdatedSubscription',
