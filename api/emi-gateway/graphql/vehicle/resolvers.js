@@ -212,7 +212,6 @@ module.exports = {
                 mergeMap(response => getResponseFromBackEnd$(response))
             ).toPromise();
         },
-
     },
 
     //// SUBSCRIPTIONS ///////

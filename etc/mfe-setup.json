@@ -34,7 +34,7 @@
             "npm install @types/googlemaps --save"
         ],
         "indexHeadAmends": [
-            "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBhdfrEECCO3UeCjJngNhuo87upTFL20hA' async defer></script>"
+            "<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBktqvY5jde1Q5cHR7FwCCeiBSo4d5OOn8&libraries=places' async defer></script>"
         ],
         "environmentVars": {}
     }
