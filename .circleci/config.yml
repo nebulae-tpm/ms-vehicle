@@ -101,7 +101,7 @@ jobs:
             mkdir -p ~/nebulae/api
             gitChanged api || ( cd  ~/nebulae/api/ && git clone --depth=1 https://github.com/nebulae-tpm/emi-gateway  ~/nebulae/api/shell )      
             gitChanged api || ls ~/nebulae/api/shell
-            gitChanged api || export DOCKERHUB_IMAGE=emi-gateway
+            gitChanged api || export DOCKERHUB_IMAGE=emigateway
             gitChanged api || export API_SHELL_PATH=/home/circleci/nebulae/api/
             gitChanged api || ( cd ~/nebulae/api/shell && sh ~/nebulae/api/shell/deployment/docker/build-docker-hub.sh  && cd ~/nebulae/repo/ )
             gitChanged api || echo $DOCKERHUB_NAMESPACE/$DOCKERHUB_IMAGE@$(docker pull $DOCKERHUB_NAMESPACE/$DOCKERHUB_IMAGE:latest | grep sha256 | cut -c 9-) > ~/nebulae/api/DOCKERHUB_GENERATED_IMAGE_DIGEST
