@@ -8,5 +8,6 @@ RUN npm install --production --silent && mv node_modules ../
 COPY . .
 COPY mbinit /
 COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD npm start

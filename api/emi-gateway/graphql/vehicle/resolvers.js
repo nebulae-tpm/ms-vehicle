@@ -236,7 +236,6 @@ module.exports = {
                 }
             )
         },
-
     }
     
 };

@@ -138,7 +138,6 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
             fuel: this.vehicleFeaturesForm.getRawValue().fuel,
             capacity: this.vehicleFeaturesForm.getRawValue().capacity,
             others: this.vehicleFeaturesForm.getRawValue().others
-
           })
         ),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),

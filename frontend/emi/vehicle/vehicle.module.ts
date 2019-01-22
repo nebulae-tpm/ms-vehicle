@@ -50,4 +50,5 @@ const routes: Routes = [
   providers: [ VehicleService, VehicleListService, VehicleDetailService, DatePipe]
 })
 
+
 export class VehicleModule {}
