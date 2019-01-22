@@ -2,6 +2,24 @@ import gql from "graphql-tag";
 
 // We use the gql tag to parse our query string into a query document
 
+//Hello world sample, please remove
+export const getHelloWorld = gql`
+  query getHelloWorldFromVehicle{
+    getHelloWorldFromVehicle{
+      sn
+    }
+  }
+`;
+
+
+//Hello world sample, please remove
+export const VehicleHelloWorldSubscription = gql`
+  subscription{
+    VehicleHelloWorldSubscription{
+      sn
+  }
+}`;
+
 export const VehicleVehicle = gql`
   query VehicleVehicle($id: String!) {
     VehicleVehicle(id: $id) {
@@ -10,7 +28,6 @@ export const VehicleVehicle = gql`
         licensePlate
         model
         brand
-        line
       }
       features {
         fuel
@@ -51,7 +68,6 @@ export const VehicleVehicles = gql`
         licensePlate
         model
         brand
-        line
       }
       state
       creationTimestamp
@@ -123,7 +139,6 @@ export const VehicleVehicleUpdatedSubscription = gql`
         licensePlate
         model
         brand
-        line
       }
       state
       creationTimestamp

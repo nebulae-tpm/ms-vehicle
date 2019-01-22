@@ -6,7 +6,9 @@ import {
 import { GatewayService } from '../../../../api/gateway.service';
 import {
   VehicleVehicles,
-  VehicleVehiclesSize
+  VehicleVehiclesSize,
+  getHelloWorld,
+  VehicleHelloWorldSubscription
 } from '../gql/vehicle';
 
 @Injectable()
@@ -26,7 +28,30 @@ export class VehicleListService {
 
   }
 
+  /**
+   * Hello World sample, please remove
+   */
+  getHelloWorld$() {
+    return this.gateway.apollo
+      .watchQuery<any>({
+        query: getHelloWorld,
+        fetchPolicy: "network-only"
+      })
+      .valueChanges.map(
+        resp => resp.data.getHelloWorldFromVehicle.sn
+      );
+  }
 
+  /**
+  * Hello World subscription sample, please remove
+  */
+ getEventSourcingMonitorHelloWorldSubscription$(): Observable<any> {
+  return this.gateway.apollo
+    .subscribe({
+      query: VehicleHelloWorldSubscription
+    })
+    .map(resp => resp.data.EventSourcingMonitorHelloWorldSubscription.sn);
+}
 
 
   /**

@@ -95,8 +95,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
     this.vehicleGeneralInfoForm = new FormGroup({
       licensePlate: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).licensePlate : ''),
       model: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).model : ''),
-      brand: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).brand : ''),
-      line: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).line : '')
+      brand: new FormControl(this.vehicle ? (this.vehicle.generalInfo || {}).brand : '')
     });
 
     this.vehicleStateForm = new FormGroup({
@@ -147,8 +146,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
           this.vehicle._id, {
             licensePlate: this.vehicleGeneralInfoForm.getRawValue().licensePlate,
             model: this.vehicleGeneralInfoForm.getRawValue().model,
-            brand: this.vehicleGeneralInfoForm.getRawValue().brand,
-            line: this.vehicleGeneralInfoForm.getRawValue().line
+            brand: this.vehicleGeneralInfoForm.getRawValue().brand
           }
         )),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),

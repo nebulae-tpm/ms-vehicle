@@ -33,15 +33,9 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field required fxFlex.gt-xs="50" fxFlex="100" fxLayout="column" class="pr-8 pl-8">
-            <input required matInput matTextareaAutosize name="line" formControlName="line" maxlength="350" placeholder="{{'VEHICLE.DETAILS.LINE' | translate}}" matAutosizeMinRows="1" matAutosizeMaxRows="5">
-            <mat-error *ngIf="vehicleGeneralInfoForm.hasError('required', ['line'])">
-                {{'VEHICLE.LINE_REQUIRED' | translate}}
-            </mat-error>
-        </mat-form-field>
 
 
-        <div class="mt-16">
+        <div fxFlex="100" class="mt-16">
             <button mat-raised-button *ngIf="pageType === 'new'" (click)="createVehicle()" [disabled]="vehicleGeneralInfoForm.invalid || vehicleGeneralInfoForm.pristine">
           {{'VEHICLE.CREATE' | translate}}
         </button>

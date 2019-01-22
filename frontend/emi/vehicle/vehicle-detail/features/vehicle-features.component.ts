@@ -72,7 +72,7 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   @Input('pageType') pageType: string;
   @Input('vehicle') vehicle: any;
 
-  otherFeatures = ['AC', 'TRUNK', 'ROOF_RACK', 'PETS', 'BIKE_RACK' ];
+  otherFeatures = ['AC', 'PMRA'];
 
   vehicleFeaturesForm: any;
   blockings = `Nikola Tesla Industrial.`.split(' ');
@@ -97,6 +97,9 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
     this.vehicleFeaturesForm = new FormGroup({
       fuel: new FormControl(this.vehicle ? (this.vehicle.features || {}).fuel : ''),
       capacity: new FormControl(this.vehicle ? (this.vehicle.features || {}).capacity : ''),
+      doorQty: new FormControl(this.vehicle ? (this.vehicle.features || {}).doorQty : ''),
+      autonomy: new FormControl(this.vehicle ? (this.vehicle.features || {}).autonomy : ''),
+      fuelCapacity: new FormControl(this.vehicle ? (this.vehicle.features || {}).fuelCapacity : ''),
       others : new FormArray([])
     });
 
@@ -138,6 +141,7 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
             fuel: this.vehicleFeaturesForm.getRawValue().fuel,
             capacity: this.vehicleFeaturesForm.getRawValue().capacity,
             others: this.vehicleFeaturesForm.getRawValue().others
+
           })
         ),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),

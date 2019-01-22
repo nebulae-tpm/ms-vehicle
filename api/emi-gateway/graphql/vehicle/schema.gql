@@ -42,8 +42,6 @@ type VehicleGeneralInfo {
   model: Int!
   "Vehicle brand"
   brand: String!
-  "Vehicle line"
-  line: String!
 }
 
 type VehicleOtherFeatures{
@@ -126,8 +124,6 @@ input VehicleVehicleGeneralInfoInput {
   model: Int!
   "Vehicle brand"
   brand: String!
-  "Vehicle line"
-  line: String!
 }
 
 type VehicleVehicleBlock {

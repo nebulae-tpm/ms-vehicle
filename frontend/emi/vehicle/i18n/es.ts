@@ -42,6 +42,10 @@ export const locale = {
         FUEL: 'Combustible',
         CAPACITY: 'Capacidad',
         OTHERS_TITLE: 'Otras características',
+        PASSENGER_CAPACITY: 'Passenger capacity',
+        DOOR_QTY: 'Cantidad de puertas',
+        AUTONOMY: 'Autonomía (Km/g)',
+        FUEL_CAPACITY: 'Capacidad de combustible',
         FUEL_TYPES: {
           GASOLINE: 'Gasonila',
           GAS: 'Gas',
@@ -50,10 +54,7 @@ export const locale = {
         },
         OTHERS: {
           AC: 'Aire acondicionado',
-          TRUNK: 'Baúl',
-          ROOF_RACK: 'Parrilla de techo',
-          PETS: 'Permite mascotas',
-          BIKE_RACK: 'Porta bicicletas'
+          PMRA: 'Acceso para personas de movilidad reducida',
         }
       },
       ACTIVE: 'Activo',
