@@ -13,7 +13,7 @@ spec:
         app: vehicle
     spec:      
       containers:
-      - image: nebulaetpm/vehicle.backend.vehicle:0.0.4
+      - image: nebulaetpm/vehicle.backend.vehicle:0.0.5
         name: vehicle
         volumeMounts:
         - name: google-application-credentials
