@@ -63,7 +63,6 @@ type VehicleFeatures {
   capacity: Int
   "Others features"
   others: [VehicleOtherFeatures]
-
 }
 
 input VehicleFeaturesInput{
