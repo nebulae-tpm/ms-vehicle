@@ -105,9 +105,6 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
         );
       }
     });
-
-
-
   }
 
 

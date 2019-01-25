@@ -297,9 +297,7 @@ class VehicleCQRS {
 
   }
 
-
   //#endregion
-
 
 }
 
