@@ -9,35 +9,5 @@ import {
 
 @Injectable()
 export class VehicleService {
-
-
-  constructor(private gateway: GatewayService) {
-
-  }
-
-  /**
-   * Hello World sample, please remove
-   */
-  getHelloWorld$() {
-    return this.gateway.apollo
-      .watchQuery<any>({
-        query: getHelloWorld,
-        fetchPolicy: 'network-only'
-      })
-      .valueChanges.map(
-        resp => resp.data.getHelloWorldFromVehicle.sn
-      );
-  }
-
-  /**
-  * Hello World subscription sample, please remove
-  */
- getEventSourcingMonitorHelloWorldSubscription$(): Observable<any> {
-  return this.gateway.apollo
-    .subscribe({
-      query: VehicleHelloWorldSubscription
-    })
-    .map(resp => resp.data.EventSourcingMonitorHelloWorldSubscription.sn);
-}
-
+  constructor(private gateway: GatewayService) {}
 }
