@@ -4,7 +4,6 @@ import {
   OnInit,
   OnDestroy,
   ViewChild,
-  ElementRef,
   Input
 } from '@angular/core';
 
@@ -12,7 +11,6 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  Validators
 } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,24 +18,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 ////////// RXJS ///////////
 import {
   map,
-  mergeMap,
-  switchMap,
-  toArray,
   filter,
-  tap,
-  takeUntil,
-  startWith,
-  debounceTime,
-  distinctUntilChanged,
-  take
+  tap
 } from 'rxjs/operators';
 
-import { Subject, fromEvent, of, forkJoin, Observable, concat, combineLatest } from 'rxjs';
+import { Subject, of } from 'rxjs';
 
 //////////// ANGULAR MATERIAL ///////////
 import {
   MatPaginator,
-  MatSort,
   MatTableDataSource,
   MatSnackBar,
   MatDialog
@@ -95,13 +84,9 @@ export class VehicleBlocksComponent implements OnInit, OnDestroy {
   constructor(
     private translationLoader: FuseTranslationLoaderService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
     public snackBar: MatSnackBar,
-    private router: Router,
-    private activatedRouter: ActivatedRoute,
     private VehicleDetailservice: VehicleDetailService,
     private dialog: MatDialog,
-    private toolbarService: ToolbarService
   ) {
       this.translationLoader.loadTranslations(english, spanish);
   }

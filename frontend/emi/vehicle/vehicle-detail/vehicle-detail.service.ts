@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { startWith,  tap, mergeMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of, interval } from 'rxjs';
+import { startWith,  tap, mergeMap, mapTo, map } from 'rxjs/operators';
 import { GatewayService } from '../../../../api/gateway.service';
 import {
   VehicleCreateVehicle,
@@ -161,6 +161,20 @@ export class VehicleDetailService {
       .subscribe({
         query: VehicleVehicleUpdatedSubscription
       });
+  }
+
+  listenVehicleLocationUpdates$(vehicleId: string) {
+    return interval(3000)
+      .pipe(
+        map(() => ({
+          lat: this.getRandomFloat(6.1601312, 6.1701312),
+          lng: this.getRandomFloat(-75.6158417, -75.5958417)
+        }))
+      );
+  }
+
+  getRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
   }
 
 }

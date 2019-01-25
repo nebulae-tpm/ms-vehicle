@@ -3,43 +3,27 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  ViewChild,
-  ElementRef,
   Input
 } from '@angular/core';
 
 import {
-  FormBuilder,
   FormGroup,
   FormControl,
-  Validators,
   FormArray
 } from '@angular/forms';
 
-import { Router, ActivatedRoute } from '@angular/router';
-
 ////////// RXJS ///////////
 import {
-  map,
   mergeMap,
-  switchMap,
-  toArray,
   filter,
   tap,
   takeUntil,
-  startWith,
-  debounceTime,
-  distinctUntilChanged,
-  take
 } from 'rxjs/operators';
 
-import { Subject, fromEvent, of, forkJoin, Observable, concat, combineLatest } from 'rxjs';
+import { Subject, of} from 'rxjs';
 
 //////////// ANGULAR MATERIAL ///////////
 import {
-  MatPaginator,
-  MatSort,
-  MatTableDataSource,
   MatSnackBar,
   MatDialog
 } from '@angular/material';
@@ -53,10 +37,8 @@ import { locale as spanish } from '../../i18n/es';
 import { FuseTranslationLoaderService } from '../../../../../core/services/translation-loader.service';
 
 //////////// Others ////////////
-import { KeycloakService } from 'keycloak-angular';
 import { VehicleDetailService } from '../vehicle-detail.service';
 import { DialogComponent } from '../../dialog/dialog.component';
-import { ToolbarService } from '../../../../toolbar/toolbar.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -81,13 +63,9 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
   constructor(
     private translationLoader: FuseTranslationLoaderService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
     public snackBar: MatSnackBar,
-    private router: Router,
-    private activatedRouter: ActivatedRoute,
     private VehicleDetailservice: VehicleDetailService,
-    private dialog: MatDialog,
-    private toolbarService: ToolbarService
+    private dialog: MatDialog
   ) {
       this.translationLoader.loadTranslations(english, spanish);
   }
@@ -141,7 +119,6 @@ export class VehicleDetailFeaturesComponent implements OnInit, OnDestroy {
             fuel: this.vehicleFeaturesForm.getRawValue().fuel,
             capacity: this.vehicleFeaturesForm.getRawValue().capacity,
             others: this.vehicleFeaturesForm.getRawValue().others
-
           })
         ),
         mergeMap(resp => this.graphQlAlarmsErrorHandler$(resp)),

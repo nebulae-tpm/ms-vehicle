@@ -3,42 +3,30 @@ import {
   Component,
   OnInit,
   OnDestroy,
-  ViewChild,
-  ElementRef,
   Input
 } from '@angular/core';
 
 import {
   FormBuilder,
   FormGroup,
-  FormControl,
-  Validators
+  FormControl
 } from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
 
 ////////// RXJS ///////////
 import {
-  map,
   mergeMap,
-  switchMap,
-  toArray,
   filter,
   tap,
   takeUntil,
-  startWith,
-  debounceTime,
-  distinctUntilChanged,
   take
 } from 'rxjs/operators';
 
-import { Subject, fromEvent, of, forkJoin, Observable, concat, combineLatest } from 'rxjs';
+import { Subject, of } from 'rxjs';
 
 //////////// ANGULAR MATERIAL ///////////
 import {
-  MatPaginator,
-  MatSort,
-  MatTableDataSource,
   MatSnackBar,
   MatDialog
 } from '@angular/material';
@@ -52,7 +40,6 @@ import { locale as spanish } from '../../i18n/es';
 import { FuseTranslationLoaderService } from '../../../../../core/services/translation-loader.service';
 
 //////////// Others ////////////
-import { KeycloakService } from 'keycloak-angular';
 import { VehicleDetailService } from '../vehicle-detail.service';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { ToolbarService } from '../../../../toolbar/toolbar.service';
@@ -77,10 +64,7 @@ export class VehicleDetailGeneralInfoComponent implements OnInit, OnDestroy {
   constructor(
     private translationLoader: FuseTranslationLoaderService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
     public snackBar: MatSnackBar,
-    private router: Router,
-    private activatedRouter: ActivatedRoute,
     private VehicleDetailservice: VehicleDetailService,
     private dialog: MatDialog,
     private toolbarService: ToolbarService

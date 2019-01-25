@@ -258,14 +258,14 @@ class VehicleCQRS {
       PERMISSION_DENIED,
       ["PLATFORM-ADMIN"]
     ).pipe(
-      // map(() => [{
-      //   key: 'PICO_Y_PLACA',
-      //   notes: 'PYP Ambiental',
-      //   startTime: 0,
-      //   endTime: 123456789,
-      //   user: 'juan.ospina'
-      // }]),
-      mergeMap(() => VehicleBlocksDA.findBlocksByVehicle$(args.id)),
+      map(() => [{
+        key: 'PICO_Y_PLACA',
+        notes: 'PYP Ambiental',
+        startTime: 0,
+        endTime: 123456789,
+        user: 'juan.ospina'
+      }]),
+      // mergeMap(() => VehicleBlocksDA.findBlocksByVehicle$(args.id)),
       mergeMap(r => GraphqlResponseTools.buildSuccessResponse$(r)),
       catchError(err => GraphqlResponseTools.handleError$(err))
     );
